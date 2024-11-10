@@ -24,7 +24,7 @@ class Routes {
           return const HomePage();
         });
       case RoutePath.webViewPage:
-        return pageRoute(const WebViewPage());
+        return pageRoute(WebViewPage(),settings: settings);
       default:
       //使用 =>（也叫 "fat arrow"） 是 Dart 中的简写语法，适用于只有一行表达式的函数。
       //return MaterialPageRoute(builder: (context) => const HomePage());

@@ -27,43 +27,54 @@ class _HomePageState extends State<HomePage> {
         //SafeArea是一个widget，可以让其子widget避开屏幕的异形区域，比如刘海屏或者下方的Home Indicator
         //保证页面内容不会被遮挡
         body: SafeArea(
-            child: Column(
+            //要一起滑动，使用SingleChildScrollView，相当于Android原生的ScrollView
+            child: SingleChildScrollView(
+                child: Column(
       children: [
         //轮播
-        Container(
-          width: double.infinity,
-          height: 150.h,
-          child: Swiper(
-            itemCount: 3,
-            itemBuilder: (context, index) {
-              //margin:外边距 only可以设置上下左右的外边距，all指定所有的外边距
-              //涉及上下左右用.r 高.h 宽.w
-              // container是一个容器，可以设置很多属性，这里还没图片，这里先用container代替
-              return Container(
-                width: double.infinity,
-                height: 150.h,
-                margin: EdgeInsets.all(15.r),
-                color: Colors.blue,
-              );
-            },
-            pagination: const SwiperPagination(),
-            control: const SwiperControl(),
-            autoplay: true,
-          ),
-        ),
-
-        //列表
-        //用Expanded包裹，让ListView占满剩余空间
-        Expanded(
-            child: ListView.builder(
+        _banner(),
+        //列表//用Expanded包裹，让ListView占满剩余空间
+        // Expanded(child:
+        ListView.builder(
+          //但是SingleChildScrollView需要知道子组件的高度，但是ListView不知道，可以设置shrinkWrap: true让ListView自适应
+          shrinkWrap: true,
+          //同时还需要禁用ListView的滑动，避免嵌套滑动冲突
+          physics: const NeverScrollableScrollPhysics(),
           itemBuilder: (context, index) {
             //回调告诉内部有多少个item，长什么样
             return _listItemView();
           },
           itemCount: 100,
-        ))
+        )
+        // )
       ],
-    )));
+    ))));
+  }
+
+  //写好一个组建可以单独抽一个方法出来，稍微解决嵌套问题
+  //轮播图
+  Widget _banner() {
+    return Container(
+      width: double.infinity,
+      height: 150.h,
+      child: Swiper(
+        itemCount: 3,
+        itemBuilder: (context, index) {
+          //margin:外边距 only可以设置上下左右的外边距，all指定所有的外边距
+          //涉及上下左右用.r 高.h 宽.w
+          // container是一个容器，可以设置很多属性，这里还没图片，这里先用container代替
+          return Container(
+            width: double.infinity,
+            height: 150.h,
+            margin: EdgeInsets.all(15.r),
+            color: Colors.blue,
+          );
+        },
+        pagination: const SwiperPagination(),
+        control: const SwiperControl(),
+        autoplay: true,
+      ),
+    );
   }
 
   //不在上面堆太多了，这里写一个方法返回一个item布局
@@ -78,7 +89,8 @@ class _HomePageState extends State<HomePage> {
           // }));
           //那么可以用隐式路由
           //Navigator.pushNamed(context, RoutePath.webViewPage);
-          RouteUtils.pushForNamed(context, RoutePath.webViewPage);
+          RouteUtils.pushForNamed(context, RoutePath.webViewPage,
+              arguments: {"name": "使用路由传值"});
         },
         child: Container(
             decoration: BoxDecoration(
