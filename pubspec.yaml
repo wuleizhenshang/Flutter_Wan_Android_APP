@@ -64,7 +64,7 @@ dev_dependencies:
   # fluttertoast toast
   fluttertoast: ^8.2.8
   # webview_flutter: webview
-  webview_flutter: ^4.10.0
+  # webview_flutter: ^4.10.0
   # flutter_swiper_view: 轮播图
   flutter_swiper_view: ^1.1.8
   # cached_network_image: 带缓存的网络图片加载组件

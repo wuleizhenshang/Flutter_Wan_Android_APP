@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_swiper_view/flutter_swiper_view.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:wan_android_flutter_test/pages/web_view_page.dart';
+import 'package:wan_android_flutter_test/route/RouteUtils.dart';
+import 'package:wan_android_flutter_test/route/route.dart';
 // import 'package:cached_network_image/cached_network_image.dart';
 
 class HomePage extends StatefulWidget {
@@ -71,9 +73,12 @@ class _HomePageState extends State<HomePage> {
         onTap: () {
           //点击事件
           //跳转到WebViewPage页面,可以通过MaterialPageRoute传递参数，也可以通过构造函数传递参数
-          Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-            return const WebViewPage();
-          }));
+          // Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+          //   return const WebViewPage();
+          // }));
+          //那么可以用隐式路由
+          //Navigator.pushNamed(context, RoutePath.webViewPage);
+          RouteUtils.pushForNamed(context, RoutePath.webViewPage);
         },
         child: Container(
             decoration: BoxDecoration(
