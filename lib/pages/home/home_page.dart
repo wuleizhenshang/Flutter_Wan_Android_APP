@@ -258,6 +258,7 @@ class _HomePageState extends State<HomePage> {
                                     fontSize: 24.sp))
                             : const SizedBox(),
                       ]),
+                      SizedBox(height: 10.h),
                       Text(data.title ?? "",
                           style:
                               TextStyle(color: Colors.black, fontSize: 24.sp)),

@@ -3,6 +3,7 @@ import 'package:wan_android_flutter_test/pages/home/home_page.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:wan_android_flutter_test/route/RouteUtils.dart';
 import 'package:wan_android_flutter_test/route/route.dart';
+import 'package:wan_android_flutter_test/theme/color.dart';
 
 import 'network/dio_instance.dart';
 
@@ -30,12 +31,12 @@ class MyApp extends StatelessWidget {
           return MaterialApp(
             title: 'Flutter Demo',
             theme: ThemeData(
-              colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+              // colorScheme: ColorScheme.fromSeed(seedColor: blue87CEFA),
               useMaterial3: true,
             ),
             //将路由封装传入，统一管理，home可以不用了，用initialRoute
             onGenerateRoute: Routes.generateRoute,
-            initialRoute: RoutePath.home,
+            initialRoute: RoutePath.mainTab,
             navigatorKey: RouteUtils.navigatorKey,
             //home: const HomePage(),
           );

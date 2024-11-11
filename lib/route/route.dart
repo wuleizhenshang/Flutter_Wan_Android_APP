@@ -1,6 +1,7 @@
 //封装Route
 import 'package:flutter/material.dart';
 import 'package:wan_android_flutter_test/pages/home/home_page.dart';
+import 'package:wan_android_flutter_test/pages/tab_page.dart';
 import 'package:wan_android_flutter_test/pages/web_view_page.dart';
 
 //路由地址
@@ -8,7 +9,7 @@ class RoutePath {
   //定义所有路由地址
 
   //首页
-  static const String home = "/";
+  static const String mainTab = "/";
 
   //webView页面
   static const String webViewPage = "/web_view_page";
@@ -18,10 +19,10 @@ class RoutePath {
 class Routes {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
-      case RoutePath.home:
+      case RoutePath.mainTab:
         //使用{}定义函数体，需要显氏return，如果要其他操作用{}，不然用=>即可
         return MaterialPageRoute(builder: (context) {
-          return const HomePage();
+          return const TabPage();
         });
       case RoutePath.webViewPage:
         return pageRoute(WebViewPage(),settings: settings);

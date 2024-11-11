@@ -16,6 +16,7 @@ class HomeViewModel with ChangeNotifier {
 
   //页码
   var pageCount = firstPageCount;
+
   //是否显示回到顶部按钮
   bool showToTopBtn = false;
   List<HomeBannerItemData> bannerList = [];
@@ -45,6 +46,7 @@ class HomeViewModel with ChangeNotifier {
 
   ///获取Home界面的文章list数据
   ///isLoadMore是否加载更多，默认false，不加载更多
+  ///这里也可以用Flutter内部定义的一些回调，如VoidCallback，Function，valueChanged等
   Future<bool> getHomeArticleList({bool isLoadMore = false}) async {
     //加载更多就直接拼接，是刷新或者首次获取就直接清空然后重新获取第0页码
     if (isLoadMore) {
