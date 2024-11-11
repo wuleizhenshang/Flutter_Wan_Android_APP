@@ -9,7 +9,7 @@ import 'package:wan_android_flutter_test/pages/web_view_page.dart';
 import 'package:wan_android_flutter_test/route/RouteUtils.dart';
 import 'package:wan_android_flutter_test/route/route.dart';
 import 'package:provider/provider.dart';
-// import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter_easyrefresh/easy_refresh.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -25,6 +25,7 @@ class HomePage extends StatefulWidget {
 ///_HomePageState是HomePage的私有类，只有HomePage可以访问，外部无法访问
 class _HomePageState extends State<HomePage> {
   HomeViewModel viewModel = HomeViewModel();
+  EasyRefreshController controller = EasyRefreshController();
 
   @override
   void initState() {
@@ -46,17 +47,54 @@ class _HomePageState extends State<HomePage> {
             //保证页面内容不会被遮挡
             body: SafeArea(
                 //要一起滑动，使用SingleChildScrollView，相当于Android原生的ScrollView
-                child: SingleChildScrollView(
-                    child: Column(
-          children: [
-            //轮播
-            _banner(),
-            //列表//用Expanded包裹，让ListView占满剩余空间
-            // Expanded(child:
-            _articleListUi()
-            // )
-          ],
-        )))));
+                child:
+                    //easy_refresh，下拉刷新，上拉加载更多
+                    EasyRefresh(
+                        //控制器
+                        controller: controller,
+                        //支持下拉刷新
+                        enableControlFinishRefresh: true,
+                        onRefresh: () async {
+                          //下拉刷新，Future是有回调的
+                          //下面这样不是并行的，是串行的，要并行的话用Future.wait
+                          // viewModel.getBanner().then((value) {
+                          //   viewModel.getHomeArticleList().then((value) {
+                          //     //刷新完成
+                          //     controller.finishRefresh();
+                          //   });
+                          // });
+                          Future.wait([
+                            viewModel.getBanner(),
+                            viewModel.getHomeArticleList()
+                          ]).then((value) {
+                            controller.finishRefresh();
+                          });
+                        },
+                        //支持上拉加载更多
+                        enableControlFinishLoad: true,
+                        onLoad: () async {
+                          //上拉加载更多
+                          viewModel
+                              .getHomeArticleList(isLoadMore: true)
+                              .then((value) {
+                            controller.finishLoad();
+                          });
+                        },
+                        //头部刷新样式
+                        header: ClassicalHeader(),
+                        //底部加载更多样式
+                        footer: ClassicalFooter(),
+                        child: SingleChildScrollView(
+                            child: Column(
+                          children: [
+                            //轮播
+                            _banner(),
+                            //列表//用Expanded包裹，让ListView占满剩余空间
+                            // Expanded(child:
+                            _articleListUi()
+                            // )
+                          ],
+                        ))))));
   }
 
   ///写好一个组建可以单独抽一个方法出来，稍微解决嵌套问题
@@ -162,18 +200,22 @@ class _HomePageState extends State<HomePage> {
                             style: TextStyle(
                                 color: Colors.black, fontSize: 22.sp)),
                         //SizedBox是一个widget，可以设置宽高，用来占位
-                        Expanded(child: SizedBox()),
+                        const Expanded(child: SizedBox()),
                         //设置边距也可以这样
                         Padding(
                             padding: EdgeInsets.only(right: 15.w),
                             child: Text(data.niceShareDate ?? "",
                                 style: TextStyle(
                                     color: Colors.black, fontSize: 20.sp))),
-                        Text("置顶",
-                            style: TextStyle(
-                                color: Colors.blue,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 24.sp))
+
+                        ///置顶文字字样，type 0 是正常文章，1是置顶文章
+                        (data.type?.toInt() == 1)
+                            ? Text("置顶",
+                                style: TextStyle(
+                                    color: Colors.blue,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 24.sp))
+                            : const SizedBox(),
                       ]),
                       Text(data.title ?? "",
                           style:
@@ -182,9 +224,9 @@ class _HomePageState extends State<HomePage> {
                         Text(data.chapterName ?? "",
                             style: TextStyle(
                                 color: Colors.lightGreen, fontSize: 20.sp)),
-                        Expanded(child: SizedBox()),
+                        const Expanded(child: SizedBox()),
                         Image.asset("assets/images/ic_unlike.png",
-                            width: 40.r, height: 40.r),
+                            width: 45.r, height: 45.r),
                       ])
                     ]))));
   }

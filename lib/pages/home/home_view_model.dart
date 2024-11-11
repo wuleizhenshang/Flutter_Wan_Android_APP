@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:wan_android_flutter_test/bean/home_article_list_bean.dart';
+import 'package:wan_android_flutter_test/network/Api.dart';
 import 'package:wan_android_flutter_test/network/dio_instance.dart';
 
 import '../../bean/HomeBannerBean.dart';
@@ -8,6 +9,11 @@ import '../../bean/HomeBannerBean.dart';
 //首页的ViewModel
 //provider简单使用
 class HomeViewModel with ChangeNotifier {
+  //第一页页码
+  static const int firstPageCount = 0;
+
+  //页码
+  var pageCount = firstPageCount;
   List<HomeBannerItemData> bannerList = [];
   List<HomeArticleListData> homeArticleList = [];
 
@@ -28,20 +34,23 @@ class HomeViewModel with ChangeNotifier {
     //     //发送超时
     //     sendTimeout: const Duration(seconds: 30));
     //等待请求结果，在异步中的同步操作
-    Response response =
-        await DioInstance.getInstance().get(path: "banner/json");
-    var homeBannerBean = HomeBannerBean.fromJson(response.data);
-    bannerList = homeBannerBean.data ?? [];
+    bannerList = await Api.getInstance().getBanner();
     //告诉监听者，数据发生了变化
     notifyListeners();
   }
 
-  //获取Home界面的文章list数据
-  Future getHomeArticleList() async {
-    Response response =
-        await DioInstance.getInstance().get(path: "article/list/0/json");
-    var homeArticleListBean = HomeArticleListBean.fromJson(response.data);
-    homeArticleList = homeArticleListBean.datas ?? [];
+  ///获取Home界面的文章list数据
+  ///isLoadMore是否加载更多，默认false，不加载更多
+  Future getHomeArticleList({bool isLoadMore = false}) async {
+    //加载更多就直接拼接，是刷新或者首次获取就直接清空然后重新获取第0页码
+    if (isLoadMore) {
+      pageCount++;
+    } else {
+      pageCount = firstPageCount;
+      homeArticleList.clear();
+    }
+    homeArticleList
+        .addAll(await Api.getInstance().getHomeArticleList(pageCount));
     notifyListeners();
   }
 }
