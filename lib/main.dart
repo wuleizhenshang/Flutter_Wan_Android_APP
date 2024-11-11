@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:wan_android_flutter_test/pages/home_page.dart';
+import 'package:wan_android_flutter_test/pages/home/home_page.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:wan_android_flutter_test/route/RouteUtils.dart';
 import 'package:wan_android_flutter_test/route/route.dart';

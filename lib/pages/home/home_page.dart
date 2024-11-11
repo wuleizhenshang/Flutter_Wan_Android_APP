@@ -3,6 +3,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper_view/flutter_swiper_view.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:wan_android_flutter_test/bean/home_banner_bean.dart';
+import 'package:wan_android_flutter_test/pages/home/home_view_model.dart';
 import 'package:wan_android_flutter_test/pages/web_view_page.dart';
 import 'package:wan_android_flutter_test/route/RouteUtils.dart';
 import 'package:wan_android_flutter_test/route/route.dart';
@@ -21,6 +23,14 @@ class HomePage extends StatefulWidget {
 //这样子就可以在HomePage中使用HomePageState的属性和方法
 //_HomePageState是HomePage的私有类，只有HomePage可以访问，外部无法访问
 class _HomePageState extends State<HomePage> {
+  List<HomeBannerItemData> bannerList = [];
+
+  @override
+  void initState() {
+    super.initState();
+    initBanner();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -51,24 +61,30 @@ class _HomePageState extends State<HomePage> {
     ))));
   }
 
+  //初始化Banner，需要用到异步，所以用async，才能用await等待
+  void initBanner() async {
+    bannerList = await HomeViewModel.getBanner();
+    setState(() {});
+  }
+
   //写好一个组建可以单独抽一个方法出来，稍微解决嵌套问题
   //轮播图
   Widget _banner() {
     return Container(
       width: double.infinity,
-      height: 150.h,
+      height: 200.h,
       child: Swiper(
-        itemCount: 3,
+        itemCount: bannerList.length,
         itemBuilder: (context, index) {
           //margin:外边距 only可以设置上下左右的外边距，all指定所有的外边距
           //涉及上下左右用.r 高.h 宽.w
           // container是一个容器，可以设置很多属性，这里还没图片，这里先用container代替
-          return Container(
-            width: double.infinity,
-            height: 150.h,
-            margin: EdgeInsets.all(15.r),
-            color: Colors.blue,
-          );
+          return ClipRRect(
+              borderRadius: BorderRadius.circular(20.r),
+              child: Image.network(
+                bannerList[index].imagePath ?? '',
+                fit: BoxFit.fill
+              ));
         },
         pagination: const SwiperPagination(),
         control: const SwiperControl(),

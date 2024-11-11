@@ -1,6 +1,6 @@
 //封装Route
 import 'package:flutter/material.dart';
-import 'package:wan_android_flutter_test/pages/home_page.dart';
+import 'package:wan_android_flutter_test/pages/home/home_page.dart';
 import 'package:wan_android_flutter_test/pages/web_view_page.dart';
 
 //路由地址
