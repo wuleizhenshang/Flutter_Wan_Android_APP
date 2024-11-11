@@ -4,7 +4,13 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:wan_android_flutter_test/route/RouteUtils.dart';
 import 'package:wan_android_flutter_test/route/route.dart';
 
+import 'network/dio_instance.dart';
+
 void main() {
+
+  ///初始化Dio
+  DioInstance.getInstance().initDio(baseUrl: "https://www.wanandroid.com/");
+
   runApp(const MyApp());
 }
 

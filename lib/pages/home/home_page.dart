@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_swiper_view/flutter_swiper_view.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:wan_android_flutter_test/bean/home_article_list_bean.dart';
-import 'package:wan_android_flutter_test/bean/home_banner_bean.dart';
 import 'package:wan_android_flutter_test/pages/home/home_view_model.dart';
 import 'package:wan_android_flutter_test/pages/web_view_page.dart';
 import 'package:wan_android_flutter_test/route/RouteUtils.dart';

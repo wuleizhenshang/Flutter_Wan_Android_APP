@@ -4,32 +4,25 @@
 
 class HomeBannerBean {
   HomeBannerBean({
-      this.data, 
-      this.errorCode, 
-      this.errorMsg,});
+    this.data});
 
-  //在Flutter中，Json可以直接当做Map直接按照键去取值，下面就取data字段的值
   HomeBannerBean.fromJson(dynamic json) {
-    if (json['data'] != null) {
+
+    if(json is List){
       data = [];
-      json['data'].forEach((v) {
+      for (var v in json) {
         data?.add(HomeBannerItemData.fromJson(v));
-      });
+      }
     }
-    errorCode = json['errorCode'];
-    errorMsg = json['errorMsg'];
   }
+
   List<HomeBannerItemData>? data;
-  num? errorCode;
-  String? errorMsg;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
     if (data != null) {
       map['data'] = data?.map((v) => v.toJson()).toList();
     }
-    map['errorCode'] = errorCode;
-    map['errorMsg'] = errorMsg;
     return map;
   }
 
@@ -46,14 +39,14 @@ class HomeBannerBean {
 
 class HomeBannerItemData {
   HomeBannerItemData({
-      this.desc, 
-      this.id, 
-      this.imagePath, 
-      this.isVisible, 
-      this.order, 
-      this.title, 
-      this.type, 
-      this.url,});
+    this.desc,
+    this.id,
+    this.imagePath,
+    this.isVisible,
+    this.order,
+    this.title,
+    this.type,
+    this.url,});
 
   HomeBannerItemData.fromJson(dynamic json) {
     desc = json['desc'];
@@ -65,6 +58,7 @@ class HomeBannerItemData {
     type = json['type'];
     url = json['url'];
   }
+
   String? desc;
   num? id;
   String? imagePath;
