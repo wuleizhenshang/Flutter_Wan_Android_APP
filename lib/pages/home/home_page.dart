@@ -24,14 +24,27 @@ class HomePage extends StatefulWidget {
 ///这样子就可以在HomePage中使用HomePageState的属性和方法
 ///_HomePageState是HomePage的私有类，只有HomePage可以访问，外部无法访问
 class _HomePageState extends State<HomePage> {
+  //顶部
+  static const double top = 0;
+
+  //回到顶部动画时间
+  static const Duration toTopAnimateDuration = Duration(seconds: 1);
+
+  //出现回到顶部按钮的滑动距离
+  static const double showToTopBtnOffset = 300;
+
   HomeViewModel viewModel = HomeViewModel();
   EasyRefreshController controller = EasyRefreshController();
+
+  //滑动控制器
+  ScrollController scrollController = ScrollController();
 
   @override
   void initState() {
     super.initState();
     viewModel.getBanner();
     viewModel.getHomeArticleList();
+    _addScrollerListener();
   }
 
   @override
@@ -43,6 +56,15 @@ class _HomePageState extends State<HomePage> {
           return viewModel;
         },
         child: Scaffold(
+            //悬浮按钮
+            floatingActionButton:
+                Consumer<HomeViewModel>(builder: (context, vm, child) {
+              return vm.showToTopBtn
+                  ? FloatingActionButton(
+                      onPressed: _scrollToTop,
+                      child: const Icon(Icons.arrow_upward))
+                  : const SizedBox();
+            }),
             //SafeArea是一个widget，可以让其子widget避开屏幕的异形区域，比如刘海屏或者下方的Home Indicator
             //保证页面内容不会被遮挡
             body: SafeArea(
@@ -74,27 +96,46 @@ class _HomePageState extends State<HomePage> {
                         enableControlFinishLoad: true,
                         onLoad: () async {
                           //上拉加载更多
-                          viewModel
-                              .getHomeArticleList(isLoadMore: true)
-                              .then((value) {
+                          if (await viewModel.getHomeArticleList(
+                              isLoadMore: true)) {
+                            //加载成功
                             controller.finishLoad();
-                          });
+                          } else {
+                            //没有更多数据
+                            controller.finishLoad(noMore: true);
+                          }
                         },
                         //头部刷新样式
                         header: ClassicalHeader(),
                         //底部加载更多样式
                         footer: ClassicalFooter(),
                         child: SingleChildScrollView(
+                            controller: scrollController,
                             child: Column(
-                          children: [
-                            //轮播
-                            _banner(),
-                            //列表//用Expanded包裹，让ListView占满剩余空间
-                            // Expanded(child:
-                            _articleListUi()
-                            // )
-                          ],
-                        ))))));
+                              children: [
+                                //轮播
+                                _banner(),
+                                //列表//用Expanded包裹，让ListView占满剩余空间
+                                // Expanded(child:
+                                _articleListUi()
+                                // )
+                              ],
+                            ))))));
+  }
+
+  ///添加滑动监听
+  void _addScrollerListener() {
+    scrollController.addListener(() {
+      //滑动监听
+      viewModel.updateShowToTopBtn(
+          scrollController.offset < showToTopBtnOffset ? false : true);
+    });
+  }
+
+  ///回到顶部
+  void _scrollToTop() {
+    scrollController.animateTo(top,
+        duration: toTopAnimateDuration, curve: Curves.easeOut);
   }
 
   ///写好一个组建可以单独抽一个方法出来，稍微解决嵌套问题

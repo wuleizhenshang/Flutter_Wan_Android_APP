@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:wan_android_flutter_test/bean/home_article_list_bean.dart';
@@ -14,6 +16,8 @@ class HomeViewModel with ChangeNotifier {
 
   //页码
   var pageCount = firstPageCount;
+  //是否显示回到顶部按钮
+  bool showToTopBtn = false;
   List<HomeBannerItemData> bannerList = [];
   List<HomeArticleListData> homeArticleList = [];
 
@@ -41,7 +45,7 @@ class HomeViewModel with ChangeNotifier {
 
   ///获取Home界面的文章list数据
   ///isLoadMore是否加载更多，默认false，不加载更多
-  Future getHomeArticleList({bool isLoadMore = false}) async {
+  Future<bool> getHomeArticleList({bool isLoadMore = false}) async {
     //加载更多就直接拼接，是刷新或者首次获取就直接清空然后重新获取第0页码
     if (isLoadMore) {
       pageCount++;
@@ -49,8 +53,22 @@ class HomeViewModel with ChangeNotifier {
       pageCount = firstPageCount;
       homeArticleList.clear();
     }
-    homeArticleList
-        .addAll(await Api.getInstance().getHomeArticleList(pageCount));
+    List<HomeArticleListData> list =
+        await Api.getInstance().getHomeArticleList(pageCount);
+    if (list.isNotEmpty) {
+      homeArticleList.addAll(list);
+      notifyListeners();
+      return true;
+    } else {
+      //加载到头了
+      pageCount--;
+      return false;
+    }
+  }
+
+  ///更新回到顶部的状态
+  void updateShowToTopBtn(bool show) {
+    showToTopBtn = show;
     notifyListeners();
   }
 }
