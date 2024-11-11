@@ -54,7 +54,8 @@ dev_dependencies:
   # permission_handler 权限申请
   permission_handler: ^11.3.1
   # provider 状态管理，还有riverpod, getx,bloc等等(provider适用简单，riverpod中大型，bloc大型，getx适合快速构建)
-  provider: ^6.0.1
+  # provider像MVVM,bloc像MVI
+  provider: ^6.1.2
   # shared_preferences 本地存储
   # shared_preferences: ^2.3.3
   # styled_widget 代码简洁，干掉地狱回调
