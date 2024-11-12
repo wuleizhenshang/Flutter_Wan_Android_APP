@@ -1,19 +1,10 @@
 # wan_android_flutter_test
-
-A new Flutter project.
-
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## 简要说明
+这个app是借助鸿洋大大的玩安卓开放的api，使用flutter开发的一个app，主要是为了练习flutter的开发，以及熟悉flutter的一些基本组件和功能。<br>
+**这里主要是保存自己的学习经历，同时也供大家参考，代码是按照下面视频up的思路写的，另外加上了自己的一些ui想法和一些自己想学习的idea，可能很杂！**
+api地址：https://www.wanandroid.com/blog/show/2 <br>
+另外跟随学习视频地址为：https://www.bilibili.com/video/BV1Qb421Y7SV <br>
+学习博客地址为：https://book.willh.cn/ <br>
 
 ## 编译环境说明
 **下面是`flutter doctor -v`打印的环境信息，as版本是最新的2024.2.2Nightly,并指定了编译的jdk版本为17**
@@ -70,3 +61,6 @@ Flutter assets will be downloaded from https://storage.flutter-io.cn. Make sure 
 **指定了jdk版本**
 PS C:\project\android_project\wan_android_flutter_test> flutter config --jdk-dir="C:\Users\jianting\.jdks\corretto-17.0.13"
 Setting "jdk-dir" value to "C:\Users\jianting\.jdks\corretto-17.0.13".
+
+## 使用的插件
+
