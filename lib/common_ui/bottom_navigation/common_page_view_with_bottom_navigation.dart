@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:wan_android_flutter_test/common_ui/keep_alive/keep_alive_wrapper.dart';
 
 ///封装Navigation+PageView，可以左右滑动切换页面，
 ///但是需要子Widget实现AutomaticKeepAliveClientMixin
-///**下面是子Widget的实现**
+///**下面是子Widget的实现，后面优化了不侵入源码，最外层包裹一层就好**
 ///```dart
 ///import 'package:flutter/cupertino.dart';
 /// import 'package:flutter/material.dart';
@@ -146,7 +147,7 @@ class _NavigationWithPageViewWidgetState
       body: PageView(
           controller: _pageController,
           onPageChanged: (index) => _currentIndexNotifier.value = index,
-          children: widget.pages),
+          children: _generateKeepAliveWidgets()),
       //底部导航栏
       bottomNavigationBar: Theme(
           //根据传入的值设置是否有水波纹效果
@@ -180,6 +181,15 @@ class _NavigationWithPageViewWidgetState
             },
           )),
     );
+  }
+
+  ///根据传入的页面生成KeepAlive的Widget
+  List<Widget> _generateKeepAliveWidgets() {
+    List<Widget> keepAliveWidgets = [];
+    for (int i = 0; i < widget.pages.length; i++) {
+      keepAliveWidgets.add(KeepAliveWrapper(child: widget.pages[i]));
+    }
+    return keepAliveWidgets;
   }
 
   ///根据传入的值生成底部导航栏的item

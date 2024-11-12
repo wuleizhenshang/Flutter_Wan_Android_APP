@@ -23,8 +23,7 @@ class HomePage extends StatefulWidget {
 ///对应HomePage界面的状态，泛型为HomePage
 ///这样子就可以在HomePage中使用HomePageState的属性和方法
 ///_HomePageState是HomePage的私有类，只有HomePage可以访问，外部无法访问
-class _HomePageState extends State<HomePage>
-    with AutomaticKeepAliveClientMixin {
+class _HomePageState extends State<HomePage> {
   //顶部
   static const double top = 0;
 
@@ -189,11 +188,13 @@ class _HomePageState extends State<HomePage>
     return Container(
         decoration: BoxDecoration(
             border: Border.all(color: Colors.black12, width: 1.5.r),
-            borderRadius: BorderRadius.circular(5.r)),
+            borderRadius: BorderRadius.circular(10.r)),
         //外边距
         margin: EdgeInsets.only(left: 8.r, right: 8.r, top: 10.r, bottom: 10.r),
         //手势监听，点击事件，GestureDetector是一种,InkWell是另一种，这个有水波纹效果
         child: InkWell(
+            radius: 30.r,
+            borderRadius: BorderRadius.circular(10.r),
             onTap: () {
               //点击事件
               //跳转到WebViewPage页面,可以通过MaterialPageRoute传递参数，也可以通过构造函数传递参数
@@ -273,8 +274,4 @@ class _HomePageState extends State<HomePage>
                       ])
                     ]))));
   }
-
-  ///AutomaticKeepAliveClientMixin实现保持页面状态
-  @override
-  bool get wantKeepAlive => true;
 }

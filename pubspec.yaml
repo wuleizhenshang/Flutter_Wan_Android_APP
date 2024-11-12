@@ -64,9 +64,11 @@ dev_dependencies:
   # url_launcher: ^6.3.1
   # fluttertoast toast
   fluttertoast: ^8.2.8
-  # webview_flutter: webview
-  # webview_flutter: ^4.10.0
+  # webview_flutter: webview，这个支持的平台为android、iOS、mac，选构建项目的时候也构建了web，这里不用这个三方库了
+  webview_flutter: ^4.5.0
+  # webview_flutter_plus: ^0.4.7
   # flutter_swiper_view: 轮播图
+  #
   flutter_swiper_view: ^1.1.8
   # cached_network_image: 带缓存的网络图片加载组件
   # cached_network_image: ^3.4.1

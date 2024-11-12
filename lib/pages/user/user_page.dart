@@ -10,7 +10,7 @@ class UserPage extends StatefulWidget {
   }
 }
 
-class _UserPageState extends State<UserPage> with AutomaticKeepAliveClientMixin {
+class _UserPageState extends State<UserPage> {
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
@@ -19,7 +19,4 @@ class _UserPageState extends State<UserPage> with AutomaticKeepAliveClientMixin 
       ),
     );
   }
-
-  @override
-  bool get wantKeepAlive => true;
 }

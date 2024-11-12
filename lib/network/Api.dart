@@ -1,4 +1,6 @@
 import 'package:wan_android_flutter_test/bean/home_article_list_bean.dart';
+import 'package:wan_android_flutter_test/bean/hot_search_word.dart';
+import 'package:wan_android_flutter_test/bean/usually_use_website.dart';
 
 import '../bean/HomeBannerBean.dart';
 import 'dio_instance.dart';
@@ -28,5 +30,19 @@ class Api {
     Response response = await DioInstance.getInstance()
         .get(path: "article/list/$pageCount/json");
     return HomeArticleListBean.fromJson(response.data).datas ?? [];
+  }
+
+  ///获取常用网站
+  Future<List<UsuallyUseWebsite>> getUsuallyUseWebSiteList() async {
+    Response response =
+        await DioInstance.getInstance().get(path: "friend/json");
+    return UsuallyUseWebsiteBean.fromJson(response.data).list;
+  }
+
+  ///获取热搜词
+  Future<List<HotSearchWord>> getHotSearchWordList() async {
+    Response response =
+        await DioInstance.getInstance().get(path: "hotkey/json");
+    return HotSearchWordBean.fromJson(response.data).list;
   }
 }
