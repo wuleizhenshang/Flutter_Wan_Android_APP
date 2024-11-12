@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:wan_android_flutter_test/route/RouteUtils.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
+import '../theme/color.dart';
+
 class WebViewPage extends StatefulWidget {
   static const String name = "name";
   static const String url = "url";
@@ -15,9 +17,16 @@ class WebViewPage extends StatefulWidget {
 }
 
 class _WebViewPageState extends State<WebViewPage> {
+  //标题
   String? name;
+
+  //url
   String? url;
 
+  //加载状态
+  final ValueNotifier<bool> _isLoading = ValueNotifier<bool>(true);
+
+  //webview控制器
   final WebViewController _controller = WebViewController();
 
   @override
@@ -34,8 +43,21 @@ class _WebViewPageState extends State<WebViewPage> {
         url = map[WebViewPage.url];
         //获取后刷新界面，一开始为空
         setState(() {
-          //更新页面
-          _controller.loadRequest(Uri.parse(url ?? ""));
+          _controller
+            ..setJavaScriptMode(JavaScriptMode
+                .unrestricted) //setJavaScriptMode是WebViewController的方法，设置JavaScript模式
+            ..setNavigationDelegate(NavigationDelegate(
+              onPageStarted: (url) {
+                //页面开始加载
+                _isLoading.value = true;
+              },
+              onPageFinished: (url) {
+                //页面加载完成
+                _isLoading.value = false;
+              },
+            )) //setNavigationDelegate是WebViewController的方法，设置导航代理
+            ..loadRequest(
+                Uri.parse(url ?? "")); //loadRequest是WebViewController的方法，加载url
         });
       }
     });
@@ -58,7 +80,20 @@ class _WebViewPageState extends State<WebViewPage> {
                 }),
           ),
           body: SafeArea(
-              child: Container(child: WebViewWidget(controller: _controller))),
+              //加载对话框和WebView在一个stack中，重叠显示，webView渲染一次，后面渲染对话框就行
+              child: Stack(
+            children: [
+              WebViewWidget(controller: _controller),
+              ValueListenableBuilder(
+                  valueListenable: _isLoading,
+                  builder: (context, value, child) {
+                    return value
+                        ? Center(
+                            child: CircularProgressIndicator(color: blue87CEFA))
+                        : const SizedBox.shrink(); // 使用空的 SizedBox 替代
+                  })
+            ],
+          )),
         ),
         //返回拦截，返回栈有东西就返回栈返回，没有东西才让系统处理返回
         onWillPop: () async {
