@@ -10,7 +10,7 @@ class HotPointPage extends StatefulWidget {
   }
 }
 
-class _HotPointPageState extends State<HotPointPage> {
+class _HotPointPageState extends State<HotPointPage> with AutomaticKeepAliveClientMixin {
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
@@ -19,4 +19,7 @@ class _HotPointPageState extends State<HotPointPage> {
               Text("HotPointPage")),
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

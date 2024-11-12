@@ -10,11 +10,14 @@ class SystemStudyPage extends StatefulWidget {
   }
 }
 
-class _SystemStudyPageState extends State<SystemStudyPage> {
+class _SystemStudyPageState extends State<SystemStudyPage> with AutomaticKeepAliveClientMixin {
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
       body: SafeArea(child: Text("SystemStudyPage")),
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

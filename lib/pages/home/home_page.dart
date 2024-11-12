@@ -23,7 +23,8 @@ class HomePage extends StatefulWidget {
 ///对应HomePage界面的状态，泛型为HomePage
 ///这样子就可以在HomePage中使用HomePageState的属性和方法
 ///_HomePageState是HomePage的私有类，只有HomePage可以访问，外部无法访问
-class _HomePageState extends State<HomePage> {
+class _HomePageState extends State<HomePage>
+    with AutomaticKeepAliveClientMixin {
   //顶部
   static const double top = 0;
 
@@ -272,4 +273,8 @@ class _HomePageState extends State<HomePage> {
                       ])
                     ]))));
   }
+
+  ///AutomaticKeepAliveClientMixin实现保持页面状态
+  @override
+  bool get wantKeepAlive => true;
 }
