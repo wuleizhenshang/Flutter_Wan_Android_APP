@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:wan_android_flutter_test/common_ui/dialog/loading_dialog.dart';
 import 'package:wan_android_flutter_test/common_ui/input_field/input_field_with_icon_cancel_ui.dart';
 import 'package:wan_android_flutter_test/pages/login/login_view_model.dart';
 import 'package:wan_android_flutter_test/route/RouteUtils.dart';
@@ -124,7 +125,19 @@ class _LoginPageState extends State<LoginPage> {
                       })),
                       SizedBox(width: 20.w),
                       Expanded(child: _loginButton(() {
-                        Fluttertoast.showToast(msg: "登录");
+                        //显示加载中对话框
+                        LoadingDialog.show(context,
+                            isWillPopScope: false, barrierDismissible: false);
+                        //登录
+                        viewModel.login().then((value) {
+                          if (value != null) {
+                            //登录失败被提前拦截了
+                            Fluttertoast.showToast(msg: "登录成功!");
+                            RouteUtils.pop(context);
+                          }
+                          //关闭加载中对话框
+                          LoadingDialog.dismiss(context);
+                        });
                       })),
                       SizedBox(width: 20.w),
                     ],

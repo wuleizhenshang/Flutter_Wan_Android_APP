@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:wan_android_flutter_test/bean/home_article_list_bean.dart';
 import 'package:wan_android_flutter_test/bean/hot_search_word.dart';
+import 'package:wan_android_flutter_test/bean/login_bean.dart';
 import 'package:wan_android_flutter_test/bean/register_bean.dart';
 import 'package:wan_android_flutter_test/bean/usually_use_website.dart';
 
@@ -63,13 +64,14 @@ class Api {
   }
 
   ///登录
-// Future login(String username,String password) async {
-//   await DioInstance.getInstance().post(path: "user/login",
-//     queryParameters: {"username":username,"password":password});
-//
-// }
-//
-// ///退出登录 清除cookie和本地保存的账号密码。。。
+  Future<LoginBean?> login(String username, String password) async {
+    Response response = await DioInstance.getInstance().post(
+        path: "user/login",
+        queryParameters: {"username": username, "password": password});
+    return response.data == null ? null : LoginBean.fromJson(response.data);
+  }
+
+  ///退出登录 清除cookie和本地保存的账号密码。。。
 // Future logout() async{
 //
 // }

@@ -28,9 +28,9 @@ class ResponseInterceptor extends InterceptorsWrapper {
         } else if (data.errorCode == -1) {
           //登录注册等请求失败
           Fluttertoast.showToast(msg: data.errorMsg ?? "请求异常，请稍后再试");
-          //继续传递数据
-          handler.next(Response(
-              requestOptions: response.requestOptions, data: null));
+          //-1为有异常的，data全变成null传出去，获取为null不解析，就知道异常了，不为空就解析
+          handler.next(
+              Response(requestOptions: response.requestOptions, data: null));
         } else {
           //交给下层处理
           handler.next(Response(
