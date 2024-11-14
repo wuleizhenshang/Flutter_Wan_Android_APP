@@ -4,6 +4,8 @@ import 'package:wan_android_flutter_test/pages/home/home_page.dart';
 import 'package:wan_android_flutter_test/pages/tab_page.dart';
 import 'package:wan_android_flutter_test/pages/web_view_page.dart';
 
+import '../pages/login/login_page.dart';
+
 //路由地址
 class RoutePath {
   //定义所有路由地址
@@ -13,6 +15,12 @@ class RoutePath {
 
   //webView页面
   static const String webViewPage = "/web_view_page";
+
+  //登录页面
+  static const String loginPage = "/login_page";
+
+  //注册页面
+  static const String registerPage = "/register_page";
 }
 
 //路由管理类
@@ -25,7 +33,12 @@ class Routes {
           return const TabPage();
         });
       case RoutePath.webViewPage:
-        return pageRoute(const WebViewPage(),settings: settings);
+        return pageRoute(const WebViewPage(), settings: settings);
+        case RoutePath.loginPage:
+        return pageRoute(LoginPage(), settings: settings);
+      case RoutePath.registerPage:
+        //return pageRoute(const RegisterPage(), settings: settings);
+        break;
       default:
       //使用 =>（也叫 "fat arrow"） 是 Dart 中的简写语法，适用于只有一行表达式的函数。
       //return MaterialPageRoute(builder: (context) => const HomePage());

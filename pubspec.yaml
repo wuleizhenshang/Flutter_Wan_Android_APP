@@ -71,7 +71,7 @@ dev_dependencies:
   #
   flutter_swiper_view: ^1.1.8
   # cached_network_image: 带缓存的网络图片加载组件
-  # cached_network_image: ^3.4.1
+  cached_network_image: ^3.4.1
   # flutter_easyrefresh: 下拉刷新上拉加载
   flutter_easyrefresh: ^2.2.2
 

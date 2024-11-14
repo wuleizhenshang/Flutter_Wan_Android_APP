@@ -36,7 +36,7 @@ class MyApp extends StatelessWidget {
             ),
             //将路由封装传入，统一管理，home可以不用了，用initialRoute
             onGenerateRoute: Routes.generateRoute,
-            initialRoute: RoutePath.mainTab,
+            initialRoute: RoutePath.loginPage,
             navigatorKey: RouteUtils.navigatorKey,
             //home: const HomePage(),
           );

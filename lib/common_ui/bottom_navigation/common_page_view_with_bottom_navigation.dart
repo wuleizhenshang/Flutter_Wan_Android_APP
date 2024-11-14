@@ -162,6 +162,7 @@ class _NavigationWithPageViewWidgetState
             valueListenable: _currentIndexNotifier,
             builder: (context, index, child) {
               return BottomNavigationBar(
+                  backgroundColor: Colors.white,
                   //设置选中和未选中文字颜色
                   selectedLabelStyle:
                       TextStyle(fontSize: widget.selectedTextSize.sp),

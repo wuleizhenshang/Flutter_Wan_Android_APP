@@ -45,4 +45,30 @@ class Api {
         await DioInstance.getInstance().get(path: "hotkey/json");
     return HotSearchWordBean.fromJson(response.data).list;
   }
+
+  ///注册
+  Future register(String username, String password, String repassword) async {
+    //TODO 拦截器关掉去跑看看是什么数据格式
+    await DioInstance.getInstance().post(
+        path: "user/register",
+        queryParameters: {
+          "username": username,
+          "password": password,
+          "repassword": repassword
+        });
+  }
+
+  ///登录
+  // Future login(String username,String password) async {
+  //   await DioInstance.getInstance().post(path: "user/login",
+  //     queryParameters: {"username":username,"password":password});
+  //
+  // }
+  //
+  // ///退出登录 清除cookie和本地保存的账号密码。。。
+  // Future logout() async{
+  //
+  // }
+  //
+  // Future
 }
