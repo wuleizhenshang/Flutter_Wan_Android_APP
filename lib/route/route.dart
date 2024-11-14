@@ -1,6 +1,7 @@
 //封装Route
 import 'package:flutter/material.dart';
 import 'package:wan_android_flutter_test/pages/home/home_page.dart';
+import 'package:wan_android_flutter_test/pages/register/register_page.dart';
 import 'package:wan_android_flutter_test/pages/tab_page.dart';
 import 'package:wan_android_flutter_test/pages/web_view_page.dart';
 
@@ -34,11 +35,10 @@ class Routes {
         });
       case RoutePath.webViewPage:
         return pageRoute(const WebViewPage(), settings: settings);
-        case RoutePath.loginPage:
-        return pageRoute(LoginPage(), settings: settings);
+      case RoutePath.loginPage:
+        return pageRoute(const LoginPage(), settings: settings);
       case RoutePath.registerPage:
-        //return pageRoute(const RegisterPage(), settings: settings);
-        break;
+        return pageRoute(const RegisterPage(), settings: settings);
       default:
       //使用 =>（也叫 "fat arrow"） 是 Dart 中的简写语法，适用于只有一行表达式的函数。
       //return MaterialPageRoute(builder: (context) => const HomePage());

@@ -13,6 +13,7 @@ class ResponseInterceptor extends InterceptorsWrapper {
         //这个errorCode跟后台约定的，玩安卓0表示成功.1001为登录失效
         if (data.errorCode == 0) {
           if (data.data == null) {
+            //为空说明有请求成功，但是没有数据，那就把整个data返回，需要根据errorCode和Message判断
             handler.next(
                 Response(requestOptions: response.requestOptions, data: true));
           } else {
@@ -24,6 +25,12 @@ class ResponseInterceptor extends InterceptorsWrapper {
           handler.reject(DioException(
               requestOptions: response.requestOptions, message: "登录失效"));
           Fluttertoast.showToast(msg: "登录失效");
+        } else if (data.errorCode == -1) {
+          //登录注册等请求失败
+          Fluttertoast.showToast(msg: data.errorMsg ?? "请求异常，请稍后再试");
+          //继续传递数据
+          handler.next(Response(
+              requestOptions: response.requestOptions, data: null));
         } else {
           //交给下层处理
           handler.next(Response(

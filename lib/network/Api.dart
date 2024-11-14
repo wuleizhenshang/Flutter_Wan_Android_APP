@@ -1,10 +1,13 @@
+import 'package:flutter/cupertino.dart';
 import 'package:wan_android_flutter_test/bean/home_article_list_bean.dart';
 import 'package:wan_android_flutter_test/bean/hot_search_word.dart';
+import 'package:wan_android_flutter_test/bean/register_bean.dart';
 import 'package:wan_android_flutter_test/bean/usually_use_website.dart';
 
 import '../bean/HomeBannerBean.dart';
 import 'dio_instance.dart';
 import 'package:dio/dio.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 ///网络请求集合在这里，简化外部操作
 ///Api做网络请求和数据的解析，ViewModel负责获取数据通知页面更新
@@ -47,28 +50,29 @@ class Api {
   }
 
   ///注册
-  Future register(String username, String password, String repassword) async {
-    //TODO 拦截器关掉去跑看看是什么数据格式
-    await DioInstance.getInstance().post(
+  Future<RegisterBean?> register(
+      String username, String password, String repassword) async {
+    Response response = await DioInstance.getInstance().post(
         path: "user/register",
         queryParameters: {
           "username": username,
           "password": password,
           "repassword": repassword
         });
+    return response.data == null ? null : RegisterBean.fromJson(response.data);
   }
 
   ///登录
-  // Future login(String username,String password) async {
-  //   await DioInstance.getInstance().post(path: "user/login",
-  //     queryParameters: {"username":username,"password":password});
-  //
-  // }
-  //
-  // ///退出登录 清除cookie和本地保存的账号密码。。。
-  // Future logout() async{
-  //
-  // }
-  //
-  // Future
+// Future login(String username,String password) async {
+//   await DioInstance.getInstance().post(path: "user/login",
+//     queryParameters: {"username":username,"password":password});
+//
+// }
+//
+// ///退出登录 清除cookie和本地保存的账号密码。。。
+// Future logout() async{
+//
+// }
+//
+// Future
 }

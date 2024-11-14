@@ -4,6 +4,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:wan_android_flutter_test/common_ui/input_field/input_field_with_icon_cancel_ui.dart';
 import 'package:wan_android_flutter_test/pages/login/login_view_model.dart';
+import 'package:wan_android_flutter_test/route/RouteUtils.dart';
+import 'package:wan_android_flutter_test/route/route.dart';
 import 'package:wan_android_flutter_test/theme/color.dart';
 import 'package:provider/provider.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -116,7 +118,9 @@ class _LoginPageState extends State<LoginPage> {
                     children: [
                       SizedBox(width: 20.w),
                       Expanded(child: _registerButton(() {
-                        Fluttertoast.showToast(msg: "注册");
+                        //跳转到注册页面
+                        RouteUtils.pushForNamed(
+                            context, RoutePath.registerPage);
                       })),
                       SizedBox(width: 20.w),
                       Expanded(child: _loginButton(() {

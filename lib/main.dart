@@ -8,7 +8,6 @@ import 'package:wan_android_flutter_test/theme/color.dart';
 import 'network/dio_instance.dart';
 
 void main() {
-
   ///初始化Dio
   DioInstance.getInstance().initDio(baseUrl: "https://www.wanandroid.com/");
 
