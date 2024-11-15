@@ -13,6 +13,10 @@ class HotPointViewModel extends ChangeNotifier {
   //热词列表
   List<HotSearchWord> hotSearchWordList = [];
 
+  //是否正在加载
+  bool isUsuallyUseWebsiteFirstLoading = true;
+  bool isHotSearchWordFirstLoading = true;
+
   ///获取数据
   Future fetchData() async {
     //一起获取数据
@@ -25,10 +29,12 @@ class HotPointViewModel extends ChangeNotifier {
   ///获取常用网站
   Future _getUsuallyUseWebsiteList() async {
     usuallyUseWebsiteList = await Api.getInstance().getUsuallyUseWebSiteList();
+    isUsuallyUseWebsiteFirstLoading = false;
   }
 
   ///获取热搜词
   Future _getHotSearchWordList() async {
     hotSearchWordList = await Api.getInstance().getHotSearchWordList();
+    isHotSearchWordFirstLoading = false;
   }
 }

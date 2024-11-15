@@ -6,8 +6,17 @@ class SystemViewModel extends ChangeNotifier {
   KnowledgeListModel? knowledgeListModel;
   SystemMainListBean systemMainListBean = SystemMainListBean();
 
+  //是否在加载
+  bool isLoading = false;
+
+  //是否显示回到顶部按钮
+  bool showToTopBtn = false;
+
   ///获取数据
   Future fetchData() async {
+    isLoading = true;
+    //不用再显示加载,由下拉提示
+    //notifyListeners();
     knowledgeListModel = await Api.getInstance().getKnowledgeList();
     knowledgeListModel?.list.forEach((element) {
       //主标题
@@ -20,7 +29,14 @@ class SystemViewModel extends ChangeNotifier {
       systemMainListBean.addSystemMainList(SystemMainBean(
           systemMainListBean.systemMainList.length, title, subtitle));
     });
+    isLoading = false;
     //更新ui
+    notifyListeners();
+  }
+
+  ///更新回到顶部的状态
+  void updateShowToTopBtn(bool show) {
+    showToTopBtn = show;
     notifyListeners();
   }
 }

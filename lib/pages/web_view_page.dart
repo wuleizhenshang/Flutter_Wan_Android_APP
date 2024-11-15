@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:wan_android_flutter_test/route/route_utils.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
@@ -32,6 +33,10 @@ class _WebViewPageState extends State<WebViewPage> {
   @override
   void initState() {
     super.initState();
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+      statusBarColor: blue87CEFA,
+      statusBarIconBrightness: Brightness.light,
+    ));
 
     //state的生命周期函数，当页面创建时调用，在build方法之前调用
     //这里需要在页面创建时获取传递过来的参数，使用WidgetsBinding.instance.addPostFrameCallback
@@ -69,7 +74,10 @@ class _WebViewPageState extends State<WebViewPage> {
     //PopScope是一个用于监听返回键的组件，当用户点击返回键时，会调用onWillPop方法
     return WillPopScope(
         child: Scaffold(
+          backgroundColor: blue87CEFA,
           appBar: AppBar(
+            titleSpacing: 0,
+            backgroundColor: blue87CEFA,
             title: Text(name ?? ""),
             //自定义返回键，点击直接返回界面，绕过检查
             leading: IconButton(

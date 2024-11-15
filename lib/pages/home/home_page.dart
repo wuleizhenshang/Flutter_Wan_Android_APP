@@ -1,15 +1,18 @@
 //flutter万物皆为widget（组件），那么一个页面也是一个组件
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_swiper_view/flutter_swiper_view.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:wan_android_flutter_test/bean/home_article_list_bean.dart';
+import 'package:wan_android_flutter_test/common_ui/dialog/loading_dialog.dart';
 import 'package:wan_android_flutter_test/pages/home/home_view_model.dart';
 import 'package:wan_android_flutter_test/pages/web_view_page.dart';
 import 'package:wan_android_flutter_test/route/route_utils.dart';
 import 'package:wan_android_flutter_test/route/route.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
+import 'package:wan_android_flutter_test/theme/color.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -42,6 +45,10 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
+    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+      statusBarColor: Colors.white,
+      statusBarIconBrightness: Brightness.dark,
+    ));
     viewModel.getBanner();
     viewModel.getHomeArticleList();
     _addScrollerListener();
@@ -50,78 +57,85 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     //使用Provider后返回ChangeNotifierProvider就好，这个本身继承Widget
-    return ChangeNotifierProvider<HomeViewModel>(
-        create: (context) {
-          //返回ChangeNotifier
-          return viewModel;
-        },
-        child: Scaffold(
-          backgroundColor: Colors.white,
-            //悬浮按钮
-            floatingActionButton:
-                Consumer<HomeViewModel>(builder: (context, vm, child) {
-              return vm.showToTopBtn
-                  ? FloatingActionButton(
-                      onPressed: _scrollToTop,
-                      child: const Icon(Icons.arrow_upward))
-                  : const SizedBox();
-            }),
-            //SafeArea是一个widget，可以让其子widget避开屏幕的异形区域，比如刘海屏或者下方的Home Indicator
-            //保证页面内容不会被遮挡
-            body: SafeArea(
-                //要一起滑动，使用SingleChildScrollView，相当于Android原生的ScrollView
-                child:
-                    //easy_refresh，下拉刷新，上拉加载更多
-                    EasyRefresh(
-                        //控制器
-                        controller: controller,
-                        //支持下拉刷新
-                        enableControlFinishRefresh: true,
-                        onRefresh: () async {
-                          //下拉刷新，Future是有回调的
-                          //下面这样不是并行的，是串行的，要并行的话用Future.wait
-                          // viewModel.getBanner().then((value) {
-                          //   viewModel.getHomeArticleList().then((value) {
-                          //     //刷新完成
-                          //     controller.finishRefresh();
-                          //   });
-                          // });
-                          Future.wait([
-                            viewModel.getBanner(),
-                            viewModel.getHomeArticleList()
-                          ]).then((value) {
-                            controller.finishRefresh();
-                          });
-                        },
-                        //支持上拉加载更多
-                        enableControlFinishLoad: true,
-                        onLoad: () async {
-                          //上拉加载更多
-                          if (await viewModel.getHomeArticleList(
-                              isLoadMore: true)) {
-                            //加载成功
-                            controller.finishLoad();
-                          } else {
-                            //没有更多数据
-                            controller.finishLoad(noMore: true);
-                          }
-                        },
-                        //头部刷新样式
-                        header: ClassicalHeader(),
-                        //底部加载更多样式
-                        footer: ClassicalFooter(),
-                        child: SingleChildScrollView(
-                            controller: scrollController,
-                            child: Column(
-                              children: [
-                                //轮播
-                                _banner(),
-                                //列表//用Expanded包裹，让ListView占满剩余空间
-                                // Expanded(child:
-                                _articleListUi()
-                                // )
-                              ],
-                            ))))));
+    return ChangeNotifierProvider<HomeViewModel>(create: (context) {
+      //返回ChangeNotifier
+      return viewModel;
+    }, child: Consumer<HomeViewModel>(builder: (context, viewModel, child) {
+      //第一次加载会显示加载中，之后会显示数据，之后下拉刷新就不再显示了
+      return (viewModel.isArticleFirstLoading || viewModel.isBannerFirstLoading)
+          //加载进度条
+          ? Container(
+              color: Colors.white,
+              child:
+                  Center(child: CircularProgressIndicator(color: blue87CEFA)))
+          //页面
+          : Scaffold(
+              backgroundColor: Colors.white,
+              //悬浮按钮
+              floatingActionButton:
+                  Consumer<HomeViewModel>(builder: (context, vm, child) {
+                return vm.showToTopBtn
+                    ? FloatingActionButton(
+                        backgroundColor: blue87CEFA,
+                        onPressed: _scrollToTop,
+                        child: Icon(Icons.arrow_upward, color: grayFFF9F9F9))
+                    : const SizedBox.shrink();
+              }),
+              //SafeArea是一个widget，可以让其子widget避开屏幕的异形区域，比如刘海屏或者下方的Home Indicator
+              //保证页面内容不会被遮挡
+              body: SafeArea(
+                child: EasyRefresh(
+                    //控制器
+                    controller: controller,
+                    //支持下拉刷新
+                    enableControlFinishRefresh: true,
+                    onRefresh: () async {
+                      //下拉刷新，Future是有回调的
+                      //下面这样不是并行的，是串行的，要并行的话用Future.wait
+                      // viewModel.getBanner().then((value) {
+                      //   viewModel.getHomeArticleList().then((value) {
+                      //     //刷新完成
+                      //     controller.finishRefresh();
+                      //   });
+                      // });
+                      Future.wait([
+                        viewModel.getBanner(),
+                        viewModel.getHomeArticleList()
+                      ]).then((value) {
+                        controller.finishRefresh();
+                      });
+                    },
+                    //支持上拉加载更多
+                    enableControlFinishLoad: true,
+                    onLoad: () async {
+                      //上拉加载更多
+                      if (await viewModel.getHomeArticleList(
+                          isLoadMore: true)) {
+                        //加载成功
+                        controller.finishLoad();
+                      } else {
+                        //没有更多数据
+                        controller.finishLoad(noMore: true);
+                      }
+                    },
+                    //头部刷新样式
+                    header: ClassicalHeader(),
+                    //底部加载更多样式
+                    footer: ClassicalFooter(),
+                    child: SingleChildScrollView(
+                        controller: scrollController,
+                        child: Column(
+                          children: [
+                            //轮播
+                            _banner(),
+                            //列表//用Expanded包裹，让ListView占满剩余空间
+                            // Expanded(child:
+                            _articleListUi()
+                            // )
+                          ],
+                        ))),
+              ));
+    }));
   }
 
   ///添加滑动监听
@@ -145,24 +159,34 @@ class _HomePageState extends State<HomePage> {
     //这里监听数据变化，这里的value可以是ViewModel
     return Consumer<HomeViewModel>(builder: (context, vm, child) {
       return SizedBox(
-        width: double.infinity,
-        height: 200.h,
-        child: Swiper(
-          itemCount: vm.bannerList.length,
-          itemBuilder: (context, index) {
-            //margin:外边距 only可以设置上下左右的外边距，all指定所有的外边距
-            //涉及上下左右用.r 高.h 宽.w
-            // container是一个容器，可以设置很多属性，这里还没图片，这里先用container代替
-            return ClipRRect(
-                borderRadius: BorderRadius.circular(20.r),
-                child: Image.network(vm.bannerList[index].imagePath ?? '',
-                    fit: BoxFit.fill));
-          },
-          pagination: const SwiperPagination(),
-          control: const SwiperControl(),
-          autoplay: true,
-        ),
-      );
+          width: double.infinity,
+          height: 200.h,
+          child: SizedBox(
+            width: double.infinity,
+            height: 200.h,
+            child: Swiper(
+              itemCount: vm.bannerList.length,
+              itemBuilder: (context, index) {
+                //margin:外边距 only可以设置上下左右的外边距，all指定所有的外边距
+                //涉及上下左右用.r 高.h 宽.w
+                // container是一个容器，可以设置很多属性，这里还没图片，这里先用container代替
+                return ClipRRect(
+                    borderRadius: BorderRadius.circular(20.r),
+                    child: Image.network(vm.bannerList[index].imagePath ?? '',
+                        fit: BoxFit.fill));
+              },
+              //底部指示器
+              pagination: SwiperPagination(
+                  builder: DotSwiperPaginationBuilder(
+                      activeColor: blue87CEFA, color: grayFFCDCDCD)),
+              //左右箭头
+              control: null,
+              //自动播放
+              autoplay: true,
+              //无限轮播
+              loop: true,
+            ),
+          ));
     });
   }
 
@@ -188,7 +212,7 @@ class _HomePageState extends State<HomePage> {
   Widget _listItemView(HomeArticleListData data) {
     return Container(
         decoration: BoxDecoration(
-            border: Border.all(color: Colors.black12, width: 1.5.r),
+            border: Border.all(color: grayFF999999, width: 1.5.r),
             borderRadius: BorderRadius.circular(10.r)),
         //外边距
         margin: EdgeInsets.only(left: 8.r, right: 8.r, top: 10.r, bottom: 10.r),
@@ -205,7 +229,10 @@ class _HomePageState extends State<HomePage> {
               //那么可以用隐式路由
               //Navigator.pushNamed(context, RoutePath.webViewPage);
               RouteUtils.pushForNamed(context, RoutePath.webViewPage,
-                  arguments: {WebViewPage.name: data.title, WebViewPage.url: data.link});
+                  arguments: {
+                    WebViewPage.name: data.title,
+                    WebViewPage.url: data.link
+                  });
             },
             child: Container(
                 //内边距

@@ -3,6 +3,7 @@ import 'dart:ffi';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:wan_android_flutter_test/bean/home_article_list_bean.dart';
+import 'package:wan_android_flutter_test/common_ui/dialog/loading_dialog.dart';
 import 'package:wan_android_flutter_test/network/api.dart';
 import 'package:wan_android_flutter_test/network/dio_instance.dart';
 
@@ -22,6 +23,10 @@ class HomeViewModel with ChangeNotifier {
   List<HomeBannerItemData> bannerList = [];
   List<HomeArticleListData> homeArticleList = [];
 
+  //是否正在加载
+  bool isBannerFirstLoading = true;
+  bool isArticleFirstLoading = true;
+
   //Future做异步和耗时操作
   //请求Banner数据
   Future getBanner() async {
@@ -40,6 +45,7 @@ class HomeViewModel with ChangeNotifier {
     //     sendTimeout: const Duration(seconds: 30));
     //等待请求结果，在异步中的同步操作
     bannerList = await Api.getInstance().getBanner();
+    isBannerFirstLoading = false;
     //告诉监听者，数据发生了变化
     notifyListeners();
   }
@@ -59,6 +65,7 @@ class HomeViewModel with ChangeNotifier {
         await Api.getInstance().getHomeArticleList(pageCount);
     if (list.isNotEmpty) {
       homeArticleList.addAll(list);
+      isArticleFirstLoading = false;
       notifyListeners();
       return true;
     } else {

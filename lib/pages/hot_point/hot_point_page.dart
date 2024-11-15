@@ -44,27 +44,37 @@ class _HotPointPageState extends State<HotPointPage> {
       create: (context) {
         return viewModel;
       },
-      child: Scaffold(
-        backgroundColor: grayFFF5F5F5,
-        body: SafeArea(
-            child: EasyRefresh(
-                controller: controller,
-                //下拉重新获取数据
-                enableControlFinishRefresh: true,
-                onRefresh: () async {
-                  await viewModel.fetchData().then((value) {
-                    controller.finishRefresh();
-                  });
-                },
-                //两个部分数据
-                child: SingleChildScrollView(
-                    child: Column(
-                  children: [
-                    _searchHotWordWidget(),
-                    _usuallyUseWebsitesWidget(),
-                  ],
-                )))),
-      ),
+      child: Consumer<HotPointViewModel>(builder: (context, viewModel, child) {
+        return (viewModel.isUsuallyUseWebsiteFirstLoading ||
+                viewModel.isHotSearchWordFirstLoading)
+            //加载中
+            ? Container(
+                color: grayFFF5F5F5,
+                child:
+                    Center(child: CircularProgressIndicator(color: blue87CEFA)))
+            //具体内容
+            : Scaffold(
+                backgroundColor: grayFFF5F5F5,
+                body: SafeArea(
+                    child: EasyRefresh(
+                        controller: controller,
+                        //下拉重新获取数据
+                        enableControlFinishRefresh: true,
+                        onRefresh: () async {
+                          await viewModel.fetchData().then((value) {
+                            controller.finishRefresh();
+                          });
+                        },
+                        //两个部分数据
+                        child: SingleChildScrollView(
+                            child: Column(
+                          children: [
+                            _searchHotWordWidget(),
+                            _usuallyUseWebsitesWidget(),
+                          ],
+                        )))),
+              );
+      }),
     );
   }
 

@@ -18,6 +18,8 @@ class LoadingDialog {
       Color backgroundColor = Colors.white,
       double radius = 10,
       Color circularProgressColor = Colors.grey,
+      Color textColor = Colors.grey,
+      double fontSize = 30,
       String text = "加载中...",
       TextStyle? textStyle}) {
     showDialog(
@@ -48,8 +50,8 @@ class LoadingDialog {
                         text,
                         style: textStyle ??
                             TextStyle(
-                                fontSize: 30.sp,
-                                color: Colors.grey,
+                                fontSize: fontSize.sp,
+                                color: textColor,
                                 overflow: TextOverflow.ellipsis,
                                 //去掉黄线
                                 decoration: TextDecoration.none),

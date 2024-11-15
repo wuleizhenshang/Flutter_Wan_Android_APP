@@ -127,7 +127,7 @@ class _LoginPageState extends State<LoginPage> {
                       Expanded(child: _loginButton(() {
                         //显示加载中对话框
                         LoadingDialog.show(context,
-                            isWillPopScope: false, barrierDismissible: false);
+                            isWillPopScope: false, barrierDismissible: false,circularProgressColor: grayAAB3B3B3,textColor: grayAAB3B3B3);
                         //登录
                         viewModel.login().then((value) {
                           if (value != null) {
