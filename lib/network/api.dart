@@ -3,6 +3,7 @@ import 'package:wan_android_flutter_test/bean/home_article_list_bean.dart';
 import 'package:wan_android_flutter_test/bean/hot_search_word.dart';
 import 'package:wan_android_flutter_test/bean/login_bean.dart';
 import 'package:wan_android_flutter_test/bean/register_bean.dart';
+import 'package:wan_android_flutter_test/bean/system_list_bean.dart';
 import 'package:wan_android_flutter_test/bean/user_message_bean.dart';
 import 'package:wan_android_flutter_test/bean/usually_use_website.dart';
 
@@ -91,5 +92,11 @@ class Api {
     } else {
       return response.data;
     }
+  }
+
+  ///获取体系数据
+  Future<KnowledgeListModel?> getKnowledgeList() async {
+    Response response = await DioInstance.getInstance().get(path: "tree/json");
+    return KnowledgeListModel.fromJson(response.data);
   }
 }

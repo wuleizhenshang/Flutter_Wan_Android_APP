@@ -1,3 +1,4 @@
+import 'package:flutter/services.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -10,6 +11,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:wan_android_flutter_test/pages/web_view_page.dart';
 import 'package:wan_android_flutter_test/route/route_utils.dart';
 import 'package:wan_android_flutter_test/route/route.dart';
+import 'package:wan_android_flutter_test/theme/color.dart';
 
 class HotPointPage extends StatefulWidget {
   const HotPointPage({super.key});
@@ -27,6 +29,11 @@ class _HotPointPageState extends State<HotPointPage> {
   @override
   void initState() {
     super.initState();
+    //设置状态栏颜色
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+      statusBarColor: grayFFF5F5F5,
+      statusBarIconBrightness: Brightness.dark,
+    ));
     //获取数据
     viewModel.fetchData();
   }
@@ -38,6 +45,7 @@ class _HotPointPageState extends State<HotPointPage> {
         return viewModel;
       },
       child: Scaffold(
+        backgroundColor: grayFFF5F5F5,
         body: SafeArea(
             child: EasyRefresh(
                 controller: controller,
@@ -216,7 +224,7 @@ class _HotPointPageState extends State<HotPointPage> {
         child: Container(
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10.r),
-              border: Border.all(color: Colors.grey, width: 1)),
+              border: Border.all(color: grayFF999999, width: 1)),
           child: Center(
             child: Text(bean.name ?? "",
                 textAlign: TextAlign.center,

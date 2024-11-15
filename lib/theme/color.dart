@@ -1,8 +1,9 @@
 import 'package:flutter/animation.dart';
 
+//主色调，选中颜色
 var blue87CEFA = const Color(0xFF87CEFA);
 var grayFF707070 = const Color(0xFF707070);
-//背景颜色
+//我的界面的背景颜色
 var grayFFF5F5F5 = const Color(0xFFF5F5F5);
 //背景颜色
 var grayFFF9F9F9 = const Color(0xFFF9F9F9);
@@ -16,3 +17,8 @@ var grayFFCDCDCD = const Color(0xFFCDCDCD);
 //不允许登录的颜色
 var blue6687CEFA = const Color(0x6687CEFA);
 var white66FFFFFF = const Color(0x66FFFFFF);
+
+//item边框颜色
+var grayFF999999 = const Color(0xFF999999);
+
+//Colors.grey是热点界面的边框颜色

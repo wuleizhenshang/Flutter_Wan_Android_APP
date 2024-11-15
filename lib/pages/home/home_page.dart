@@ -56,6 +56,7 @@ class _HomePageState extends State<HomePage> {
           return viewModel;
         },
         child: Scaffold(
+          backgroundColor: Colors.white,
             //悬浮按钮
             floatingActionButton:
                 Consumer<HomeViewModel>(builder: (context, vm, child) {
@@ -204,7 +205,7 @@ class _HomePageState extends State<HomePage> {
               //那么可以用隐式路由
               //Navigator.pushNamed(context, RoutePath.webViewPage);
               RouteUtils.pushForNamed(context, RoutePath.webViewPage,
-                  arguments: {WebViewPage.name: data.desc, WebViewPage.url: data.link});
+                  arguments: {WebViewPage.name: data.title, WebViewPage.url: data.link});
             },
             child: Container(
                 //内边距

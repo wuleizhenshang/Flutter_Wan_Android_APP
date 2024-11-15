@@ -47,7 +47,8 @@ class NavigationWithIndexStackWidget extends StatefulWidget {
       this.unSelectedColor = Colors.grey,
       this.selectedColor = Colors.blue,
       this.showSelectedLabels = true,
-      this.showUnselectedLabels = true});
+      this.showUnselectedLabels = true,
+      this.onIndexChanged});
 
   //具体页面
   final List<Widget> pages;
@@ -81,6 +82,9 @@ class NavigationWithIndexStackWidget extends StatefulWidget {
 
   //是否显示未选中的标签
   final bool showUnselectedLabels;
+
+  //页面索引
+  final ValueChanged<int>? onIndexChanged;
 
   @override
   State<StatefulWidget> createState() {
@@ -136,6 +140,7 @@ class _NavigationWithIndexStackWidgetState
                 //点击切换界面
                 setState(() {
                   _currentIndex = index;
+                  widget.onIndexChanged?.call(index);
                 });
               },
               currentIndex: _currentIndex)),

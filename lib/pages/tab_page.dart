@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:wan_android_flutter_test/common_ui/bottom_navigation/common_index_stack_with_bottom_navigation.dart';
 import 'package:wan_android_flutter_test/common_ui/bottom_navigation/common_page_view_with_bottom_navigation.dart';
 import 'package:wan_android_flutter_test/main.dart';
@@ -80,6 +81,30 @@ class _TabPageState extends State<TabPage> {
       "热点",
       "体系",
       "我的"
-    ], unSelectedColor: grayFFCDCDCD, selectedColor: blue87CEFA);
+    ], unSelectedColor: grayFFCDCDCD, selectedColor: blue87CEFA,
+    onIndexChanged: (index) {
+      //下标变化，切换状态栏
+      if(index == 0) {
+        SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+          statusBarColor: Colors.white,
+          statusBarIconBrightness: Brightness.dark,
+        ));
+      }else if(index ==1){
+        SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+          statusBarColor: grayFFF5F5F5,
+          statusBarIconBrightness: Brightness.dark,
+        ));
+      }else if(index ==2){
+        SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+          statusBarColor: Colors.white,
+          statusBarIconBrightness: Brightness.dark,
+        ));
+      }else if(index ==3){
+        SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+          statusBarColor: blue87CEFA,
+          statusBarIconBrightness: Brightness.dark,
+        ));
+      }
+    });
   }
 }

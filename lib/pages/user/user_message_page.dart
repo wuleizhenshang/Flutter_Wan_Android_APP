@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/services.dart';
 import 'package:wan_android_flutter_test/common_ui/bottom_navigation/common_index_stack_with_bottom_navigation.dart';
 import 'package:wan_android_flutter_test/common_ui/cache_network_image/cache_network_image.dart';
 import 'package:wan_android_flutter_test/pages/user/user_message_view_model.dart';
@@ -29,6 +30,11 @@ class _UserPageState extends State<UserPage> {
   @override
   void initState() {
     super.initState();
+    //设置状态栏颜色
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+      statusBarColor: blue87CEFA,
+      statusBarIconBrightness: Brightness.dark,
+    ));
     viewModel.getUserMessage();
   }
 
