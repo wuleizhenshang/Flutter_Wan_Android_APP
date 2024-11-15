@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:wan_android_flutter_test/route/RouteUtils.dart';
+import 'package:wan_android_flutter_test/route/route_utils.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 import '../theme/color.dart';

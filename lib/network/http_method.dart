@@ -1,3 +1,4 @@
+///一些常用的http请求方法
 class HttpMethod{
   static const String GET = "GET";
   static const String POST = "POST";

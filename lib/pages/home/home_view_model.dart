@@ -3,7 +3,7 @@ import 'dart:ffi';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:wan_android_flutter_test/bean/home_article_list_bean.dart';
-import 'package:wan_android_flutter_test/network/Api.dart';
+import 'package:wan_android_flutter_test/network/api.dart';
 import 'package:wan_android_flutter_test/network/dio_instance.dart';
 
 import '../../bean/HomeBannerBean.dart';

@@ -6,7 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:wan_android_flutter_test/bean/home_article_list_bean.dart';
 import 'package:wan_android_flutter_test/pages/home/home_view_model.dart';
 import 'package:wan_android_flutter_test/pages/web_view_page.dart';
-import 'package:wan_android_flutter_test/route/RouteUtils.dart';
+import 'package:wan_android_flutter_test/route/route_utils.dart';
 import 'package:wan_android_flutter_test/route/route.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
@@ -204,7 +204,7 @@ class _HomePageState extends State<HomePage> {
               //那么可以用隐式路由
               //Navigator.pushNamed(context, RoutePath.webViewPage);
               RouteUtils.pushForNamed(context, RoutePath.webViewPage,
-                  arguments: {"name": "使用路由传值"});
+                  arguments: {WebViewPage.name: data.desc, WebViewPage.url: data.link});
             },
             child: Container(
                 //内边距

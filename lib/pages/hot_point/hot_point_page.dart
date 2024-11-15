@@ -8,7 +8,7 @@ import 'package:wan_android_flutter_test/common_ui/bottom_navigation/common_inde
 import 'package:wan_android_flutter_test/pages/hot_point/hot_point_view_model.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:wan_android_flutter_test/pages/web_view_page.dart';
-import 'package:wan_android_flutter_test/route/RouteUtils.dart';
+import 'package:wan_android_flutter_test/route/route_utils.dart';
 import 'package:wan_android_flutter_test/route/route.dart';
 
 class HotPointPage extends StatefulWidget {

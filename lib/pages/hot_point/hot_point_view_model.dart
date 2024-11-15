@@ -2,7 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
 import 'package:wan_android_flutter_test/bean/hot_search_word.dart';
-import 'package:wan_android_flutter_test/network/Api.dart';
+import 'package:wan_android_flutter_test/network/api.dart';
 
 import '../../bean/usually_use_website.dart';
 

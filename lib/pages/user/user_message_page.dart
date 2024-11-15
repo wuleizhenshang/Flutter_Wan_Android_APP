@@ -4,9 +4,15 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:wan_android_flutter_test/common_ui/bottom_navigation/common_index_stack_with_bottom_navigation.dart';
 import 'package:wan_android_flutter_test/common_ui/cache_network_image/cache_network_image.dart';
 import 'package:wan_android_flutter_test/pages/user/user_message_view_model.dart';
+import 'package:wan_android_flutter_test/route/route.dart';
+import 'package:wan_android_flutter_test/route/route_utils.dart';
 import 'package:wan_android_flutter_test/theme/color.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+
+import '../../memory/sp/sp_key_constant.dart';
+import '../../memory/sp/sp_utils.dart';
 
 class UserPage extends StatefulWidget {
   const UserPage({super.key});
@@ -19,6 +25,12 @@ class UserPage extends StatefulWidget {
 
 class _UserPageState extends State<UserPage> {
   UserMessageViewModel viewModel = UserMessageViewModel();
+
+  @override
+  void initState() {
+    super.initState();
+    viewModel.getUserMessage();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -44,33 +56,56 @@ class _UserPageState extends State<UserPage> {
           child: Column(
             children: [
               SizedBox(height: 35.h),
-              Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
-                SizedBox(width: 20.w),
-                //头像
-                CustomCacheNetworkImage(
-                    imageUrl: vm.userMessageBean?.userInfo.icon ??
-                        "https://scpic.chinaz.net/files/default/imgs/2023-07-12/40fd0b90e02f7fd4.jpg",
-                    width: 150,
-                    height: 150,
-                    radius: 75),
-                SizedBox(width: 20.w),
-                //昵称、积分数量、等级
-                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                  Text(vm.userMessageBean?.userInfo.username ?? "未登录",
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 35.sp,
-                          fontWeight: FontWeight.bold)),
-                  SizedBox(height: 15.h),
-                  Row(children: [
-                    Text("积分：${vm.userMessageBean?.coinInfo.coinCount ?? 0}",
-                        style: TextStyle(color: grayFFF5F5F5, fontSize: 25.sp)),
-                    SizedBox(width: 20.w),
-                    Text("等级：${vm.userMessageBean?.coinInfo.level ?? 0}",
-                        style: TextStyle(color: grayFFF5F5F5, fontSize: 25.sp)),
-                  ])
-                ])
-              ]),
+              GestureDetector(
+                  onTap: () {
+                    //未登录就跳转登录界面
+                    viewModel.isLogin().then((value) async {
+                      if (!value) {
+                        // Navigator.pushNamed(
+                        //     context, RoutePath.loginPage);
+                        //可以拿到返回值，看是否登录成功
+                        bool isLoginSuccess = await RouteUtils.pushForNamed(
+                            RouteUtils.context, RoutePath.loginPage);
+                        if (isLoginSuccess) {
+                          // 登录成功，刷新用户信息
+                          viewModel.getUserMessage();
+                        }
+                      }
+                    });
+                  },
+                  child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        SizedBox(width: 20.w),
+                        //头像
+                        CustomCacheNetworkImage(
+                            imageUrl: vm.userMessage.userIconLink,
+                            width: 150,
+                            height: 150,
+                            radius: 75),
+                        SizedBox(width: 20.w),
+                        //昵称、积分数量、等级
+                        Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              //昵称
+                              Text(vm.userMessage.nickname,
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 35.sp,
+                                      fontWeight: FontWeight.bold)),
+                              SizedBox(height: 15.h),
+                              Row(children: [
+                                Text("积分：${vm.userMessage.coinCount}",
+                                    style: TextStyle(
+                                        color: grayFFF5F5F5, fontSize: 25.sp)),
+                                SizedBox(width: 20.w),
+                                Text("等级：${vm.userMessage.userLevel}",
+                                    style: TextStyle(
+                                        color: grayFFF5F5F5, fontSize: 25.sp)),
+                              ])
+                            ])
+                      ])),
               SizedBox(height: 35.h)
             ],
           ));
@@ -87,11 +122,15 @@ class _UserPageState extends State<UserPage> {
         Container(width: double.infinity, height: 1, color: grayFFCDCDCD),
         _singleOptionUi("检查更新", () {}),
         SizedBox(height: 20.h),
-        _logoutButton(() {})
+        _logoutButton(() {
+          //退出登录
+          viewModel.logout();
+        })
       ],
     );
   }
 
+  ///退出登录按钮
   Widget _logoutButton(VoidCallback onPressed) {
     return InkWell(
       splashColor: gray60CDCDCD,

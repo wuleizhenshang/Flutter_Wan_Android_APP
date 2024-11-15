@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:wan_android_flutter_test/pages/home/home_page.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:wan_android_flutter_test/route/RouteUtils.dart';
+import 'package:wan_android_flutter_test/route/route_utils.dart';
 import 'package:wan_android_flutter_test/route/route.dart';
 import 'package:wan_android_flutter_test/theme/color.dart';
 
@@ -35,7 +35,7 @@ class MyApp extends StatelessWidget {
             ),
             //将路由封装传入，统一管理，home可以不用了，用initialRoute
             onGenerateRoute: Routes.generateRoute,
-            initialRoute: RoutePath.loginPage,
+            initialRoute: RoutePath.mainTab,
             navigatorKey: RouteUtils.navigatorKey,
             //home: const HomePage(),
           );

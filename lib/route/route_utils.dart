@@ -30,6 +30,7 @@ class RouteUtils {
   }
 
   ///根据路由路径跳转
+  ///获取回调的话注意传入的context为同一个，可以都传工具类的context
   static Future pushForNamed(
     BuildContext context,
     String name, {
@@ -49,7 +50,8 @@ class RouteUtils {
     String name, {
     Object? arguments,
   }) {
-    return Navigator.pushNamedAndRemoveUntil(context, name, (route) => false, arguments: arguments);
+    return Navigator.pushNamedAndRemoveUntil(context, name, (route) => false,
+        arguments: arguments);
   }
 
   ///清空栈，只留目标页面
@@ -72,7 +74,8 @@ class RouteUtils {
   }
 
   ///用新的路由替换当路由
-  static Future pushReplacement(BuildContext context, Route route, {Object? result}) {
+  static Future pushReplacement(BuildContext context, Route route,
+      {Object? result}) {
     return Navigator.pushReplacement(context, route, result: result);
   }
 
@@ -83,7 +86,8 @@ class RouteUtils {
     Object? result,
     Object? arguments,
   }) {
-    return Navigator.pushReplacementNamed(context, name, arguments: arguments, result: result);
+    return Navigator.pushReplacementNamed(context, name,
+        arguments: arguments, result: result);
   }
 
   ///关闭当前页面
@@ -92,6 +96,7 @@ class RouteUtils {
   }
 
   ///关闭当前页面:包含返回值
+  ///返回值类型为T要指定，不然获取不到，还有就是这里的context和popOfData的context要一致，可以都传工具类的context
   static void popOfData<T extends Object?>(BuildContext context, {T? data}) {
     Navigator.of(context).pop(data);
   }

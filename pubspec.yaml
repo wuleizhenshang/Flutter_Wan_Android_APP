@@ -57,7 +57,7 @@ dev_dependencies:
   # provider像MVVM,bloc像MVI
   provider: ^6.1.2
   # shared_preferences 本地存储
-  # shared_preferences: ^2.3.3
+  shared_preferences: ^2.3.3
   # styled_widget 代码简洁，干掉地狱回调
   styled_widget: ^0.4.1
   # url_launcher 打开外部链接

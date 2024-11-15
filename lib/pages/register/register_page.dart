@@ -6,7 +6,7 @@ import 'package:wan_android_flutter_test/common_ui/dialog/loading_dialog.dart';
 import 'package:wan_android_flutter_test/pages/register/register_view_model.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:wan_android_flutter_test/route/RouteUtils.dart';
+import 'package:wan_android_flutter_test/route/route_utils.dart';
 
 import '../../common_ui/input_field/input_field_with_icon_cancel_ui.dart';
 import '../../theme/color.dart';

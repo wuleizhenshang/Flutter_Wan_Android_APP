@@ -5,7 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:wan_android_flutter_test/common_ui/dialog/loading_dialog.dart';
 import 'package:wan_android_flutter_test/common_ui/input_field/input_field_with_icon_cancel_ui.dart';
 import 'package:wan_android_flutter_test/pages/login/login_view_model.dart';
-import 'package:wan_android_flutter_test/route/RouteUtils.dart';
+import 'package:wan_android_flutter_test/route/route_utils.dart';
 import 'package:wan_android_flutter_test/route/route.dart';
 import 'package:wan_android_flutter_test/theme/color.dart';
 import 'package:provider/provider.dart';
@@ -133,10 +133,15 @@ class _LoginPageState extends State<LoginPage> {
                           if (value != null) {
                             //登录失败被提前拦截了
                             Fluttertoast.showToast(msg: "登录成功!");
-                            RouteUtils.pop(context);
+                            //关闭加载中对话框
+                            LoadingDialog.dismiss(context);
+                            //返回并携带数据，在入口出可以await拿到
+                            RouteUtils.popOfData<bool>(RouteUtils.context,
+                                data: true);
+                          } else {
+                            //关闭加载中对话框
+                            LoadingDialog.dismiss(context);
                           }
-                          //关闭加载中对话框
-                          LoadingDialog.dismiss(context);
                         });
                       })),
                       SizedBox(width: 20.w),
@@ -147,6 +152,7 @@ class _LoginPageState extends State<LoginPage> {
         ));
   }
 
+  ///注册按钮
   Widget _registerButton(VoidCallback onPressed) {
     return InkWell(
       onTap: onPressed,
