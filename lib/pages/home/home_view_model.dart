@@ -4,10 +4,13 @@ import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:wan_android_flutter_test/bean/home_article_list_bean.dart';
 import 'package:wan_android_flutter_test/common_ui/dialog/loading_dialog.dart';
+import 'package:wan_android_flutter_test/memory/sp/sp_utils.dart';
 import 'package:wan_android_flutter_test/network/api.dart';
 import 'package:wan_android_flutter_test/network/dio_instance.dart';
 
 import '../../bean/HomeBannerBean.dart';
+import '../../memory/sp/sp_key_constant.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 //首页的ViewModel
 //provider简单使用
@@ -79,5 +82,45 @@ class HomeViewModel with ChangeNotifier {
   void updateShowToTopBtn(bool show) {
     showToTopBtn = show;
     notifyListeners();
+  }
+
+  ///是否收藏list中对应index的文章
+  bool isCollectArticle(int index) {
+    if (index < 0 || index >= homeArticleList.length) {
+      return false;
+    }
+    return homeArticleList[index].collect ?? false;
+  }
+
+  ///收藏或取消收藏
+  ///id:文章id
+  ///index:文章在list中的位置
+  Future<bool> collect(int id, int index) async {
+    //如果没有登录，就不允许收藏和取消收藏
+    if (await SpUtils.getBool(SpKey.isLoginSuccess) == false) {
+      return false;
+    }
+    //如果已经收藏了，就取消收藏
+    if (isCollectArticle(index)) {
+      bool result = await Api.getInstance().unCollectArticle(id);
+      if (result) {
+        homeArticleList[index].collect = false;
+      }
+      Fluttertoast.showToast(
+          msg: result ? "取消收藏成功" : "取消收藏失败", toastLength: Toast.LENGTH_SHORT);
+      notifyListeners();
+      return result;
+    }
+    //如果没有收藏，就收藏
+    else {
+      bool result = await Api.getInstance().collectArticle(id);
+      if (result) {
+        homeArticleList[index].collect = true;
+      }
+      Fluttertoast.showToast(
+          msg: result ? "收藏成功" : "收藏失败", toastLength: Toast.LENGTH_SHORT);
+      notifyListeners();
+      return result;
+    }
   }
 }

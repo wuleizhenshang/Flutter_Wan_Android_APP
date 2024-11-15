@@ -150,7 +150,10 @@ class _RegisterPageState extends State<RegisterPage> {
                       child: _registerButton(onPressed: () {
                         //显示加载框
                         LoadingDialog.show(context,
-                            barrierDismissible: false, isWillPopScope: false);
+                            barrierDismissible: false,
+                            isWillPopScope: false,
+                            circularProgressColor: grayFFBFBFBF,
+                            textColor: grayFFBFBFBF);
 
                         //注册
                         viewModel.register().then((value) {

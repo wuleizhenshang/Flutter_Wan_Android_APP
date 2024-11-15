@@ -45,6 +45,16 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   @override
+  void dispose() {
+    super.dispose();
+    // 即将销毁，恢复为跳转来的页面的状态栏颜色
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+      statusBarColor: blue87CEFA,
+      statusBarIconBrightness: Brightness.dark,
+    ));
+  }
+
+  @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
         create: (context) {
@@ -127,7 +137,10 @@ class _LoginPageState extends State<LoginPage> {
                       Expanded(child: _loginButton(() {
                         //显示加载中对话框
                         LoadingDialog.show(context,
-                            isWillPopScope: false, barrierDismissible: false,circularProgressColor: grayAAB3B3B3,textColor: grayAAB3B3B3);
+                            isWillPopScope: false,
+                            barrierDismissible: false,
+                            circularProgressColor: grayFFBFBFBF,
+                            textColor: grayFFBFBFBF);
                         //登录
                         viewModel.login().then((value) {
                           if (value != null) {

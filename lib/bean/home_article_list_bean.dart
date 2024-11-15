@@ -100,6 +100,7 @@ class HomeArticleListData {
     this.canEdit,
     this.chapterId,
     this.chapterName,
+    //是否收藏
     this.collect,
     this.courseId,
     this.desc,

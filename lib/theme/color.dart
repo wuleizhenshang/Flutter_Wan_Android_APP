@@ -22,6 +22,6 @@ var white66FFFFFF = const Color(0x66FFFFFF);
 var grayFF999999 = const Color(0xFF999999);
 
 //加载对话框颜色
-var grayAAB3B3B3 = const Color(0xAAB3B3B3);
+var grayFFBFBFBF = const Color(0xFFBFBFBF);
 
 //Colors.grey是热点界面的边框颜色

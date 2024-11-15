@@ -99,4 +99,24 @@ class Api {
     Response response = await DioInstance.getInstance().get(path: "tree/json");
     return KnowledgeListModel.fromJson(response.data);
   }
+
+  ///收藏文章
+  Future<bool> collectArticle(int id) async {
+    Response response =
+        await DioInstance.getInstance().post(path: "lg/collect/$id/json");
+    if(response.data!=null&&response.data is bool){
+      return response.data;
+    }
+    return false;
+  }
+
+  ///取消收藏文章
+  Future<bool> unCollectArticle(int id) async {
+    Response response =
+        await DioInstance.getInstance().post(path: "lg/uncollect_originId/$id/json");
+    if(response.data!=null&&response.data is bool){
+      return response.data;
+    }
+    return false;
+  }
 }

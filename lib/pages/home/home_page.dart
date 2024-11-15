@@ -14,6 +14,8 @@ import 'package:provider/provider.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:wan_android_flutter_test/theme/color.dart';
 
+import '../../common_ui/cache_network_image/cache_network_image.dart';
+
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
@@ -27,6 +29,9 @@ class HomePage extends StatefulWidget {
 ///这样子就可以在HomePage中使用HomePageState的属性和方法
 ///_HomePageState是HomePage的私有类，只有HomePage可以访问，外部无法访问
 class _HomePageState extends State<HomePage> {
+  //空头像
+  final String _emptyUserIconLink = "https://picsum.photos/300/300";
+
   //顶部
   static const double top = 0;
 
@@ -200,7 +205,7 @@ class _HomePageState extends State<HomePage> {
         physics: const NeverScrollableScrollPhysics(),
         itemBuilder: (context, index) {
           //回调告诉内部有多少个item，长什么样
-          return _listItemView(vm.homeArticleList[index]);
+          return _listItemView(vm.homeArticleList[index], index);
         },
         itemCount: vm.homeArticleList.length,
       );
@@ -209,7 +214,7 @@ class _HomePageState extends State<HomePage> {
 
   ///单个文章布局Item的UI
   //不在上面堆太多了，这里写一个方法返回一个item布局
-  Widget _listItemView(HomeArticleListData data) {
+  Widget _listItemView(HomeArticleListData data, int index) {
     return Container(
         decoration: BoxDecoration(
             border: Border.all(color: grayFF999999, width: 1.5.r),
@@ -254,14 +259,12 @@ class _HomePageState extends State<HomePage> {
                         //     )),
                         // Image.network没有缓存，用CachedNetworkImage第三方库
                         //变为圆角
-                        ClipRRect(
-                            borderRadius: BorderRadius.circular(30.r),
-                            child: Image.network(
-                              "https://img.btstu.cn/api/images/5a2b8d420d355.jpg",
-                              width: 60.r,
-                              height: 60.r,
-                              fit: BoxFit.cover,
-                            )),
+                        CustomCacheNetworkImage(
+                            imageUrl: _emptyUserIconLink,
+                            width: 60,
+                            height: 60,
+                            radius: 30,
+                            fit: BoxFit.cover),
                         //要设置间距，可以用SizedBox，也可以用Padding组件
                         SizedBox(width: 15.w),
                         Text(
@@ -297,8 +300,29 @@ class _HomePageState extends State<HomePage> {
                             style: TextStyle(
                                 color: Colors.lightGreen, fontSize: 20.sp)),
                         const Expanded(child: SizedBox()),
-                        Image.asset("assets/images/ic_unlike.png",
-                            width: 45.r, height: 45.r),
+                        GestureDetector(
+                            onTap: () {
+                              //收藏或者取消收藏
+                              if (data.id != null && data.id is int) {
+                                LoadingDialog.show(context,
+                                    circularProgressColor: grayFFBFBFBF,
+                                    textColor: grayFFBFBFBF);
+                                viewModel
+                                    .collect(data.id as int, index)
+                                    .then((value) {
+                                  LoadingDialog.dismiss(context);
+                                });
+                              }
+                            },
+                            child: Container(
+                                padding: EdgeInsets.all(10.w),
+                                child: viewModel
+                                            .homeArticleList[index].collect ??
+                                        false
+                                    ? Image.asset("assets/images/ic_like.png",
+                                        width: 45.r, height: 45.r)
+                                    : Image.asset("assets/images/ic_unlike.png",
+                                        width: 45.r, height: 45.r)))
                       ])
                     ]))));
   }

@@ -23,8 +23,8 @@ class ResponseInterceptor extends InterceptorsWrapper {
         } else if (data.errorCode == 1001) {
           //登录失效
           handler.reject(DioException(
-              requestOptions: response.requestOptions, message: "登录失效"));
-          Fluttertoast.showToast(msg: "登录失效");
+              requestOptions: response.requestOptions, message: data.errorMsg??"还未登录，请先登录"));
+          Fluttertoast.showToast(msg: data.errorMsg?? "还未登录，请先登录");
         } else if (data.errorCode == -1) {
           //登录注册等请求失败
           Fluttertoast.showToast(msg: data.errorMsg ?? "请求异常，请稍后再试");

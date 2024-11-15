@@ -147,7 +147,7 @@ class _UserPageState extends State<UserPage> {
         color: Colors.white,
         width: double.infinity,
         padding: EdgeInsets.only(top: 25.h, bottom: 25.h),
-        child: Center(child: Text("退出登录", style: TextStyle(fontSize: 30.sp))),
+        child: Center(child: Text("退出登录", style: TextStyle(fontSize: 30.sp,fontWeight: FontWeight.w600))),
       ),
     );
   }

@@ -75,23 +75,24 @@ class UserMessageViewModel extends ChangeNotifier {
 
   ///退出登录
   Future logout() async {
-    Api.getInstance().logout();
-    //清除登录信息
-    SpUtils.saveBool(SpKey.isLoginSuccess, false);
-    SpUtils.remove(SpKey.userId);
-    SpUtils.remove(SpKey.coinCount);
-    SpUtils.remove(SpKey.userLevel);
-    SpUtils.remove(SpKey.nickname);
-    SpUtils.remove(SpKey.userIconLink);
-    SpUtils.remove(SpKey.cookie);
-    //清除用户信息
-    userMessage.nickname = _emptyNicknameWhileNoLogin;
-    userMessage.coinCount = _emptyCoinCount;
-    userMessage.userLevel = _emptyUserLevel;
-    userMessage.userIconLink = _emptyUserIconLink;
-    notifyListeners();
+    if(await isLogin()){
+      Api.getInstance().logout();
+      //清除登录信息
+      SpUtils.saveBool(SpKey.isLoginSuccess, false);
+      SpUtils.remove(SpKey.userId);
+      SpUtils.remove(SpKey.coinCount);
+      SpUtils.remove(SpKey.userLevel);
+      SpUtils.remove(SpKey.nickname);
+      SpUtils.remove(SpKey.userIconLink);
+      SpUtils.remove(SpKey.cookie);
+      //清除用户信息
+      userMessage.nickname = _emptyNicknameWhileNoLogin;
+      userMessage.coinCount = _emptyCoinCount;
+      userMessage.userLevel = _emptyUserLevel;
+      userMessage.userIconLink = _emptyUserIconLink;
+      notifyListeners();
+    }
   }
-
 
 }
 
