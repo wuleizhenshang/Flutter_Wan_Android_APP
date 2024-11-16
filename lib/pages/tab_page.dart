@@ -83,28 +83,28 @@ class _TabPageState extends State<TabPage> {
       "我的"
     ], unSelectedColor: grayFFCDCDCD, selectedColor: blue87CEFA,
     onIndexChanged: (index) {
-      //下标变化，切换状态栏
-      if(index == 0) {
-        SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-          statusBarColor: Colors.white,
-          statusBarIconBrightness: Brightness.dark,
-        ));
-      }else if(index ==1){
-        SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-          statusBarColor: grayFFF5F5F5,
-          statusBarIconBrightness: Brightness.dark,
-        ));
-      }else if(index ==2){
-        SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-          statusBarColor: Colors.white,
-          statusBarIconBrightness: Brightness.dark,
-        ));
-      }else if(index ==3){
-        SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-          statusBarColor: blue87CEFA,
-          statusBarIconBrightness: Brightness.dark,
-        ));
-      }
+      // //下标变化，切换状态栏
+      // if(index == 0) {
+      //   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+      //     statusBarColor: Colors.white,
+      //     statusBarIconBrightness: Brightness.dark,
+      //   ));
+      // }else if(index ==1){
+      //   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+      //     statusBarColor: grayFFF5F5F5,
+      //     statusBarIconBrightness: Brightness.dark,
+      //   ));
+      // }else if(index ==2){
+      //   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+      //     statusBarColor: Colors.white,
+      //     statusBarIconBrightness: Brightness.dark,
+      //   ));
+      // }else if(index ==3){
+      //   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+      //     statusBarColor: blue87CEFA,
+      //     statusBarIconBrightness: Brightness.dark,
+      //   ));
+      // }
     });
   }
 }

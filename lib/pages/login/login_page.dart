@@ -30,11 +30,6 @@ class _LoginPageState extends State<LoginPage> {
   @override
   void initState() {
     super.initState();
-    // 设置状态栏颜色为白色
-    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-      statusBarColor: Colors.white, // 设置状态栏颜色为白色
-      statusBarIconBrightness: Brightness.dark, // 设置状态栏图标为深色，适应白色背景
-    ));
     // 监听输入框变化
     _userNameController.addListener(() {
       viewModel.setUserName(_userNameController.text);
@@ -42,16 +37,6 @@ class _LoginPageState extends State<LoginPage> {
     _passwordController.addListener(() {
       viewModel.setPassword(_passwordController.text);
     });
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    // 即将销毁，恢复为跳转来的页面的状态栏颜色
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-      statusBarColor: blue87CEFA,
-      statusBarIconBrightness: Brightness.dark,
-    ));
   }
 
   @override
@@ -64,7 +49,11 @@ class _LoginPageState extends State<LoginPage> {
           backgroundColor: Colors.white,
           appBar: AppBar(
             title: const Text("登录"),
-            backgroundColor: Colors.white, // 设置AppBar背景为白色
+            backgroundColor: Colors.white,
+            systemOverlayStyle: const SystemUiOverlayStyle(
+                statusBarColor: Colors.white,
+                statusBarIconBrightness: Brightness.dark
+            ),// 设置AppBar背景为白色
             elevation: 0, // 设置AppBar下方的阴影为无
             //iconTheme: IconThemeData(color: Colors.black), // 设置AppBar图标颜色为黑色
           ),

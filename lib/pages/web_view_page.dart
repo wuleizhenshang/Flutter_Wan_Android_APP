@@ -33,10 +33,6 @@ class _WebViewPageState extends State<WebViewPage> {
   @override
   void initState() {
     super.initState();
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-      statusBarColor: blue87CEFA,
-      statusBarIconBrightness: Brightness.light,
-    ));
 
     //state的生命周期函数，当页面创建时调用，在build方法之前调用
     //这里需要在页面创建时获取传递过来的参数，使用WidgetsBinding.instance.addPostFrameCallback
@@ -79,6 +75,10 @@ class _WebViewPageState extends State<WebViewPage> {
             titleSpacing: 0,
             backgroundColor: blue87CEFA,
             title: Text(name ?? ""),
+            systemOverlayStyle: SystemUiOverlayStyle(
+              statusBarColor: blue87CEFA,
+              statusBarIconBrightness: Brightness.light,
+            ),
             //自定义返回键，点击直接返回界面，绕过检查
             leading: IconButton(
                 icon: const Icon(Icons.arrow_back),

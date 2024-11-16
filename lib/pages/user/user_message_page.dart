@@ -30,28 +30,27 @@ class _UserPageState extends State<UserPage> {
   @override
   void initState() {
     super.initState();
-    //设置状态栏颜色
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-      statusBarColor: blue87CEFA,
-      statusBarIconBrightness: Brightness.dark,
-    ));
     viewModel.getUserMessage();
   }
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-        create: (context) {
-          return viewModel;
-        },
-        child: Scaffold(
-            extendBodyBehindAppBar: true,
-            body: SafeArea(
-              child: Container(
-                  color: grayFFF5F5F5,
-                  child:
-                      Column(children: [_userMessageUi(), _selectOptionUi()])),
-            )));
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+        value: SystemUiOverlayStyle(
+            statusBarColor: blue87CEFA,
+            statusBarIconBrightness: Brightness.light),
+        child: ChangeNotifierProvider(
+            create: (context) {
+              return viewModel;
+            },
+            child: Scaffold(
+                extendBodyBehindAppBar: true,
+                body: SafeArea(
+                  child: Container(
+                      color: grayFFF5F5F5,
+                      child: Column(
+                          children: [_userMessageUi(), _selectOptionUi()])),
+                ))));
   }
 
   ///用户信息
@@ -122,12 +121,24 @@ class _UserPageState extends State<UserPage> {
   Widget _selectOptionUi() {
     return Column(
       children: [
+        _singleOptionUi("我的收藏", () {
+          //未登录就跳转登录界面，登录成功跳转收藏页面
+          viewModel.isLogin().then((value) {
+            if (!value) {
+              RouteUtils.pushForNamed(RouteUtils.context, RoutePath.loginPage);
+            } else {
+              RouteUtils.pushForNamed(
+                  RouteUtils.context, RoutePath.myCollectPage);
+            }
+          });
+        }),
+        SizedBox(height: 30.h),
         _singleOptionUi("关于App", () {}),
         Container(width: double.infinity, height: 1, color: grayFFCDCDCD),
         _singleOptionUi("关于开发者", () {}),
         Container(width: double.infinity, height: 1, color: grayFFCDCDCD),
         _singleOptionUi("检查更新", () {}),
-        SizedBox(height: 20.h),
+        SizedBox(height: 30.h),
         _logoutButton(() {
           //退出登录
           viewModel.logout();
@@ -147,7 +158,10 @@ class _UserPageState extends State<UserPage> {
         color: Colors.white,
         width: double.infinity,
         padding: EdgeInsets.only(top: 25.h, bottom: 25.h),
-        child: Center(child: Text("退出登录", style: TextStyle(fontSize: 30.sp,fontWeight: FontWeight.w600))),
+        child: Center(
+            child: Text("退出登录",
+                style:
+                    TextStyle(fontSize: 30.sp, fontWeight: FontWeight.w600))),
       ),
     );
   }

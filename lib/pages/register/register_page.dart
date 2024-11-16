@@ -31,11 +31,6 @@ class _RegisterPageState extends State<RegisterPage> {
   @override
   void initState() {
     super.initState();
-    // 设置状态栏颜色为白色
-    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-      statusBarColor: Colors.white, // 设置状态栏颜色为白色
-      statusBarIconBrightness: Brightness.dark, // 设置状态栏图标为深色，适应白色背景
-    ));
     // 监听输入框变化
     _userNameController.addListener(() {
       viewModel.setUsername(_userNameController.text);
@@ -58,7 +53,11 @@ class _RegisterPageState extends State<RegisterPage> {
           backgroundColor: Colors.white,
           appBar: AppBar(
             title: const Text("注册"),
-            backgroundColor: Colors.white, // 设置AppBar背景为白色
+            backgroundColor: Colors.white,
+            systemOverlayStyle: const SystemUiOverlayStyle(
+                statusBarColor: Colors.white,
+                statusBarIconBrightness: Brightness.dark
+            ),
             elevation: 0, // 设置AppBar下方的阴影为无
             //iconTheme: IconThemeData(color: Colors.black), // 设置AppBar图标颜色为黑色
           ),

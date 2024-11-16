@@ -50,10 +50,6 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-      statusBarColor: Colors.white,
-      statusBarIconBrightness: Brightness.dark,
-    ));
     viewModel.getBanner();
     viewModel.getHomeArticleList();
     _addScrollerListener();
@@ -61,86 +57,93 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    //使用Provider后返回ChangeNotifierProvider就好，这个本身继承Widget
-    return ChangeNotifierProvider<HomeViewModel>(create: (context) {
-      //返回ChangeNotifier
-      return viewModel;
-    }, child: Consumer<HomeViewModel>(builder: (context, viewModel, child) {
-      //第一次加载会显示加载中，之后会显示数据，之后下拉刷新就不再显示了
-      return (viewModel.isArticleFirstLoading || viewModel.isBannerFirstLoading)
-          //加载进度条
-          ? Container(
-              color: Colors.white,
-              child:
-                  Center(child: CircularProgressIndicator(color: blue87CEFA)))
-          //页面
-          : Scaffold(
-              backgroundColor: Colors.white,
-              //悬浮按钮
-              floatingActionButton:
-                  Consumer<HomeViewModel>(builder: (context, vm, child) {
-                return vm.showToTopBtn
-                    ? FloatingActionButton(
-                        backgroundColor: blue87CEFA,
-                        onPressed: _scrollToTop,
-                        child: Icon(Icons.arrow_upward, color: grayFFF9F9F9))
-                    : const SizedBox.shrink();
-              }),
-              //SafeArea是一个widget，可以让其子widget避开屏幕的异形区域，比如刘海屏或者下方的Home Indicator
-              //保证页面内容不会被遮挡
-              body: SafeArea(
-                child: EasyRefresh(
-                    //控制器
-                    controller: controller,
-                    //支持下拉刷新
-                    enableControlFinishRefresh: true,
-                    onRefresh: () async {
-                      //下拉刷新，Future是有回调的
-                      //下面这样不是并行的，是串行的，要并行的话用Future.wait
-                      // viewModel.getBanner().then((value) {
-                      //   viewModel.getHomeArticleList().then((value) {
-                      //     //刷新完成
-                      //     controller.finishRefresh();
-                      //   });
-                      // });
-                      Future.wait([
-                        viewModel.getBanner(),
-                        viewModel.getHomeArticleList()
-                      ]).then((value) {
-                        controller.finishRefresh();
-                      });
-                    },
-                    //支持上拉加载更多
-                    enableControlFinishLoad: true,
-                    onLoad: () async {
-                      //上拉加载更多
-                      if (await viewModel.getHomeArticleList(
-                          isLoadMore: true)) {
-                        //加载成功
-                        controller.finishLoad();
-                      } else {
-                        //没有更多数据
-                        controller.finishLoad(noMore: true);
-                      }
-                    },
-                    //头部刷新样式
-                    header: ClassicalHeader(),
-                    //底部加载更多样式
-                    footer: ClassicalFooter(),
-                    child: SingleChildScrollView(
-                        controller: scrollController,
-                        child: Column(
-                          children: [
-                            //轮播
-                            _banner(),
-                            //列表//用Expanded包裹，让ListView占满剩余空间
-                            // Expanded(child:
-                            _articleListUi()
-                            // )
-                          ],
-                        ))),
-              ));
-    }));
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+        value: const SystemUiOverlayStyle(
+          statusBarColor: Colors.white,
+          statusBarIconBrightness: Brightness.dark,
+        ),
+        child: ChangeNotifierProvider<HomeViewModel>(create: (context) {
+          //返回ChangeNotifier
+          return viewModel;
+        }, child: Consumer<HomeViewModel>(builder: (context, viewModel, child) {
+          //使用Provider后返回ChangeNotifierProvider就好，这个本身继承Widget
+          //第一次加载会显示加载中，之后会显示数据，之后下拉刷新就不再显示了
+          return (viewModel.isArticleFirstLoading ||
+                  viewModel.isBannerFirstLoading)
+              //加载进度条
+              ? Container(
+                  color: Colors.white,
+                  child: Center(
+                      child: CircularProgressIndicator(color: blue87CEFA)))
+              //页面
+              : Scaffold(
+                  backgroundColor: Colors.white,
+                  //悬浮按钮
+                  floatingActionButton:
+                      Consumer<HomeViewModel>(builder: (context, vm, child) {
+                    return vm.showToTopBtn
+                        ? FloatingActionButton(
+                            backgroundColor: blue87CEFA,
+                            onPressed: _scrollToTop,
+                            child:
+                                Icon(Icons.arrow_upward, color: grayFFF9F9F9))
+                        : const SizedBox.shrink();
+                  }),
+                  //SafeArea是一个widget，可以让其子widget避开屏幕的异形区域，比如刘海屏或者下方的Home Indicator
+                  //保证页面内容不会被遮挡
+                  body: SafeArea(
+                    child: EasyRefresh(
+                        //控制器
+                        controller: controller,
+                        //支持下拉刷新
+                        enableControlFinishRefresh: true,
+                        onRefresh: () async {
+                          //下拉刷新，Future是有回调的
+                          //下面这样不是并行的，是串行的，要并行的话用Future.wait
+                          // viewModel.getBanner().then((value) {
+                          //   viewModel.getHomeArticleList().then((value) {
+                          //     //刷新完成
+                          //     controller.finishRefresh();
+                          //   });
+                          // });
+                          Future.wait([
+                            viewModel.getBanner(),
+                            viewModel.getHomeArticleList()
+                          ]).then((value) {
+                            controller.finishRefresh();
+                          });
+                        },
+                        //支持上拉加载更多
+                        enableControlFinishLoad: true,
+                        onLoad: () async {
+                          //上拉加载更多
+                          if (await viewModel.getHomeArticleList(
+                              isLoadMore: true)) {
+                            //加载成功
+                            controller.finishLoad();
+                          } else {
+                            //没有更多数据
+                            controller.finishLoad(noMore: true);
+                          }
+                        },
+                        //头部刷新样式
+                        header: ClassicalHeader(),
+                        //底部加载更多样式
+                        footer: ClassicalFooter(),
+                        child: SingleChildScrollView(
+                            controller: scrollController,
+                            child: Column(
+                              children: [
+                                //轮播
+                                _banner(),
+                                //列表//用Expanded包裹，让ListView占满剩余空间
+                                // Expanded(child:
+                                _articleListUi()
+                                // )
+                              ],
+                            ))),
+                  ));
+        })));
   }
 
   ///添加滑动监听

@@ -2,6 +2,7 @@ import 'dart:ffi';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:wan_android_flutter_test/pages/system/system_view_model.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -45,60 +46,65 @@ class _SystemStudyPageState extends State<SystemStudyPage> {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider<SystemViewModel>(
-        create: (context) {
-          return viewModel;
-        },
-        child: Scaffold(
-          backgroundColor: Colors.white,
-          //悬浮按钮
-          floatingActionButton:
-              Consumer<SystemViewModel>(builder: (context, vm, child) {
-            return vm.showToTopBtn
-                ? FloatingActionButton(
-                    backgroundColor: blue87CEFA,
-                    onPressed: _scrollToTop,
-                    child: Icon(Icons.arrow_upward, color: grayFFF9F9F9))
-                : const SizedBox.shrink();
-          }),
-          body: SafeArea(
-              child: Consumer<SystemViewModel>(builder: (context, vm, child) {
-            return Stack(children: [
-              // 页面内容
-              EasyRefresh(
-                controller: _controller,
-                // 刷新
-                onRefresh: () async {
-                  viewModel.fetchData().then((value) {
-                    _controller.finishRefresh();
-                  });
-                },
-                child: vm.isLoading
-                    ? const SizedBox.shrink() // 在加载时不显示列表内容
-                    : ListView.builder(
-                        controller: scrollController,
-                        itemBuilder: (context, index) {
-                          return _singleSystemMainListUi(viewModel
-                              .systemMainListBean.systemMainList[index]);
-                        },
-                        itemCount:
-                            viewModel.systemMainListBean.systemMainList.length,
-                      ),
-              ),
-              // 加载指示器居中
-              vm.isLoading
-                  ?
-                  //Positioned 通常用来控制子组件在 Stack 中的定位,fill 会填充满整个 Stack
-                  Positioned.fill(
-                      child: Align(
-                        alignment: Alignment.center,
-                        child: CircularProgressIndicator(color: blue87CEFA),
-                      ),
-                    )
-                  : const SizedBox.shrink()
-            ]);
-          })),
-        ));
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+        value: const SystemUiOverlayStyle(
+          statusBarColor: Colors.white,
+          statusBarIconBrightness: Brightness.dark,
+        ),
+        child: ChangeNotifierProvider<SystemViewModel>(
+            create: (context) {
+              return viewModel;
+            },
+            child: Scaffold(
+              backgroundColor: Colors.white,
+              //悬浮按钮
+              floatingActionButton:
+                  Consumer<SystemViewModel>(builder: (context, vm, child) {
+                return vm.showToTopBtn
+                    ? FloatingActionButton(
+                        backgroundColor: blue87CEFA,
+                        onPressed: _scrollToTop,
+                        child: Icon(Icons.arrow_upward, color: grayFFF9F9F9))
+                    : const SizedBox.shrink();
+              }),
+              body: SafeArea(child:
+                  Consumer<SystemViewModel>(builder: (context, vm, child) {
+                return Stack(children: [
+                  // 页面内容
+                  EasyRefresh(
+                    controller: _controller,
+                    // 刷新
+                    onRefresh: () async {
+                      viewModel.fetchData().then((value) {
+                        _controller.finishRefresh();
+                      });
+                    },
+                    child: vm.isLoading
+                        ? const SizedBox.shrink() // 在加载时不显示列表内容
+                        : ListView.builder(
+                            controller: scrollController,
+                            itemBuilder: (context, index) {
+                              return _singleSystemMainListUi(viewModel
+                                  .systemMainListBean.systemMainList[index]);
+                            },
+                            itemCount: viewModel
+                                .systemMainListBean.systemMainList.length,
+                          ),
+                  ),
+                  // 加载指示器居中
+                  vm.isLoading
+                      ?
+                      //Positioned 通常用来控制子组件在 Stack 中的定位,fill 会填充满整个 Stack
+                      Positioned.fill(
+                          child: Align(
+                            alignment: Alignment.center,
+                            child: CircularProgressIndicator(color: blue87CEFA),
+                          ),
+                        )
+                      : const SizedBox.shrink()
+                ]);
+              })),
+            )));
   }
 
   ///回到顶部

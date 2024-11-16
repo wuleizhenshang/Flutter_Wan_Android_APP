@@ -30,9 +30,15 @@ class MyApp extends StatelessWidget {
           return MaterialApp(
             title: 'Flutter Demo',
             theme: ThemeData(
-              // colorScheme: ColorScheme.fromSeed(seedColor: blue87CEFA),
-              useMaterial3: true,
-            ),
+                // colorScheme: ColorScheme.fromSeed(seedColor: blue87CEFA),
+                useMaterial3: true,
+
+                ///设置appbar主题
+                ///默认情况下，AppBar 会根据主题自动调整它的背景颜色。
+                ///surfaceTintColor 是用来修改这种默认背景色的。
+                ///如果设置为 Colors.transparent，它会让 AppBar 的背景颜色变得透明，
+                ///同时不会有任何默认的表面颜色覆盖
+                appBarTheme: AppBarTheme(surfaceTintColor: Colors.transparent)),
             //将路由封装传入，统一管理，home可以不用了，用initialRoute
             onGenerateRoute: Routes.generateRoute,
             initialRoute: RoutePath.mainTab,

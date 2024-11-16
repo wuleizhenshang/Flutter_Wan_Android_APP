@@ -2,6 +2,9 @@ import 'package:dio/dio.dart';
 import 'package:wan_android_flutter_test/bean/wan_android_base_bean.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
+import '../../memory/sp/sp_key_constant.dart';
+import '../../memory/sp/sp_utils.dart';
+
 ///提前解析data，最外层套的部分没了，直接获取到data部分传递给下一层
 class ResponseInterceptor extends InterceptorsWrapper {
   @override
@@ -22,6 +25,15 @@ class ResponseInterceptor extends InterceptorsWrapper {
           }
         } else if (data.errorCode == 1001) {
           //登录失效
+          //清除登录信息
+          SpUtils.saveBool(SpKey.isLoginSuccess, false);
+          SpUtils.remove(SpKey.userId);
+          SpUtils.remove(SpKey.coinCount);
+          SpUtils.remove(SpKey.userLevel);
+          SpUtils.remove(SpKey.nickname);
+          SpUtils.remove(SpKey.userIconLink);
+          SpUtils.remove(SpKey.cookie);
+          //返回登录失效
           handler.reject(DioException(
               requestOptions: response.requestOptions, message: data.errorMsg??"还未登录，请先登录"));
           Fluttertoast.showToast(msg: data.errorMsg?? "还未登录，请先登录");

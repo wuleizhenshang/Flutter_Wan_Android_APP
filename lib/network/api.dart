@@ -119,4 +119,11 @@ class Api {
     }
     return false;
   }
+
+  ///获取收藏文章列表
+  Future<List<HomeArticleListData>>getCollectArticleList(int pageCount) async {
+    Response response = await DioInstance.getInstance()
+        .get(path: "lg/collect/list/$pageCount/json");
+    return HomeArticleListBean.fromJson(response.data).datas ?? [];
+  }
 }
