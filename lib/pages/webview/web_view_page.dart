@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:wan_android_flutter_test/route/route_utils.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
-import '../theme/color.dart';
+import '../../theme/color.dart';
 
 class WebViewPage extends StatefulWidget {
   static const String name = "name";

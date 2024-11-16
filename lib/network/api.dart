@@ -9,6 +9,7 @@ import 'package:wan_android_flutter_test/bean/user_message_bean.dart';
 import 'package:wan_android_flutter_test/bean/usually_use_website.dart';
 
 import '../bean/HomeBannerBean.dart';
+import '../bean/search_list_bean.dart';
 import 'dio_instance.dart';
 import 'package:dio/dio.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -134,5 +135,12 @@ class Api {
     Response response = await DioInstance.getInstance()
         .get(path: "article/list/$page/json?cid=$id");
     return SystemDetailListBean.fromJson(response.data).datas ?? [];
+  }
+
+  ///根据关键字搜索获取文章列表
+  Future<List<SearchItemBean>> searchByKeyword(String keyword,int page) async {
+    Response response = await DioInstance.getInstance()
+        .post(path: "article/query/$page/json",queryParameters: {"k":keyword});
+    return SearchListBean.fromJson(response.data).datas ?? [];
   }
 }

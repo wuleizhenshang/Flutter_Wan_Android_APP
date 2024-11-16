@@ -8,7 +8,8 @@ import 'package:wan_android_flutter_test/bean/usually_use_website.dart';
 import 'package:wan_android_flutter_test/common_ui/bottom_navigation/common_index_stack_with_bottom_navigation.dart';
 import 'package:wan_android_flutter_test/pages/hot_point/hot_point_view_model.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:wan_android_flutter_test/pages/web_view_page.dart';
+import 'package:wan_android_flutter_test/pages/search/search_page.dart';
+import 'package:wan_android_flutter_test/pages/webview/web_view_page.dart';
 import 'package:wan_android_flutter_test/route/route_utils.dart';
 import 'package:wan_android_flutter_test/route/route.dart';
 import 'package:wan_android_flutter_test/theme/color.dart';
@@ -41,45 +42,46 @@ class _HotPointPageState extends State<HotPointPage> {
   @override
   Widget build(BuildContext context) {
     return AnnotatedRegion<SystemUiOverlayStyle>(
-      value: SystemUiOverlayStyle(
-          statusBarColor: grayFFF5F5F5, statusBarIconBrightness: Brightness.dark),
-      child: ChangeNotifierProvider<HotPointViewModel>(
-        create: (context) {
-          return viewModel;
-        },
-        child: Consumer<HotPointViewModel>(builder: (context, viewModel, child) {
-          return (viewModel.isUsuallyUseWebsiteFirstLoading ||
-              viewModel.isHotSearchWordFirstLoading)
-          //加载中
-              ? Container(
-              color: grayFFF5F5F5,
-              child:
-              Center(child: CircularProgressIndicator(color: blue87CEFA)))
-          //具体内容
-              : Scaffold(
-            backgroundColor: grayFFF5F5F5,
-            body: SafeArea(
-                child: EasyRefresh(
-                    controller: controller,
-                    //下拉重新获取数据
-                    enableControlFinishRefresh: true,
-                    onRefresh: () async {
-                      await viewModel.fetchData().then((value) {
-                        controller.finishRefresh();
-                      });
-                    },
-                    //两个部分数据
-                    child: SingleChildScrollView(
-                        child: Column(
-                          children: [
-                            _searchHotWordWidget(),
-                            _usuallyUseWebsitesWidget(),
-                          ],
-                        )))),
-          );
-        }),
-      )
-    );
+        value: SystemUiOverlayStyle(
+            statusBarColor: grayFFF5F5F5,
+            statusBarIconBrightness: Brightness.dark),
+        child: ChangeNotifierProvider<HotPointViewModel>(
+          create: (context) {
+            return viewModel;
+          },
+          child:
+              Consumer<HotPointViewModel>(builder: (context, viewModel, child) {
+            return (viewModel.isUsuallyUseWebsiteFirstLoading ||
+                    viewModel.isHotSearchWordFirstLoading)
+                //加载中
+                ? Container(
+                    color: grayFFF5F5F5,
+                    child: Center(
+                        child: CircularProgressIndicator(color: blue87CEFA)))
+                //具体内容
+                : Scaffold(
+                    backgroundColor: grayFFF5F5F5,
+                    body: SafeArea(
+                        child: EasyRefresh(
+                            controller: controller,
+                            //下拉重新获取数据
+                            enableControlFinishRefresh: true,
+                            onRefresh: () async {
+                              await viewModel.fetchData().then((value) {
+                                controller.finishRefresh();
+                              });
+                            },
+                            //两个部分数据
+                            child: SingleChildScrollView(
+                                child: Column(
+                              children: [
+                                _searchHotWordWidget(),
+                                _usuallyUseWebsitesWidget(),
+                              ],
+                            )))),
+                  );
+          }),
+        ));
   }
 
   ///整个搜索热词列表Ui
@@ -104,8 +106,13 @@ class _HotPointPageState extends State<HotPointPage> {
                       fontSize: 30.sp,
                       fontWeight: FontWeight.bold)),
               const Expanded(child: SizedBox()),
-              Image.asset("assets/images/ic_search.png",
-                  width: 45.w, height: 45.h),
+              GestureDetector(
+                  onTap: () {
+                    //点击跳转搜索
+                    RouteUtils.pushForNamed(context, RoutePath.searchPage);
+                  },
+                  child: Image.asset("assets/images/ic_search.png",
+                      width: 45.w, height: 45.h)),
               SizedBox(width: 20.w)
             ],
           ),
@@ -131,6 +138,7 @@ class _HotPointPageState extends State<HotPointPage> {
               itemBuilder: (context, index) {
                 return _singleSearchHotWordItemWidget(
                     viewModel.hotSearchWordList[index], callback: (name) {
+                  RouteUtils.push(context, SearchPage(initKey: name));
                   //TODO 点击事件，跳转搜索
                 });
               },

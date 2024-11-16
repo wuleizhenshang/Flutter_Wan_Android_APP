@@ -35,8 +35,8 @@ class UserMessageViewModel extends ChangeNotifier {
     getUserMessageFromLocal();
     //如果登录了，再去获取网络信息
     if (await isLogin()) {
-      getUserMessageFromInternet();
-      getUserMessageFromLocal();
+      await getUserMessageFromInternet();
+      await getUserMessageFromLocal();
     }
   }
 
@@ -49,7 +49,7 @@ class UserMessageViewModel extends ChangeNotifier {
     //保存信息到sp
     SpUtils.saveInt(SpKey.userId, userMessageBean?.userInfo.id ?? 0);
     SpUtils.saveInt(SpKey.coinCount, userMessageBean?.coinInfo.coinCount ?? 0);
-    SpUtils.saveInt(SpKey.userLevel, userMessageBean?.coinInfo.coinCount ?? 0);
+    SpUtils.saveInt(SpKey.userLevel, userMessageBean?.coinInfo.level ?? 0);
     SpUtils.saveString(
         SpKey.nickname, userMessageBean?.userInfo.nickname ?? "");
   }

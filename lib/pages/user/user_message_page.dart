@@ -4,7 +4,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/services.dart';
 import 'package:wan_android_flutter_test/common_ui/bottom_navigation/common_index_stack_with_bottom_navigation.dart';
 import 'package:wan_android_flutter_test/common_ui/cache_network_image/cache_network_image.dart';
-import 'package:wan_android_flutter_test/pages/tab_page.dart';
+import 'package:wan_android_flutter_test/pages/main_tab/tab_page.dart';
 import 'package:wan_android_flutter_test/pages/user/user_message_view_model.dart';
 import 'package:wan_android_flutter_test/route/route.dart';
 import 'package:wan_android_flutter_test/route/route_utils.dart';

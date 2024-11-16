@@ -15,7 +15,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
 
-import '../web_view_page.dart';
+import '../webview/web_view_page.dart';
 
 class MyCollectPage extends StatefulWidget {
   const MyCollectPage({super.key});

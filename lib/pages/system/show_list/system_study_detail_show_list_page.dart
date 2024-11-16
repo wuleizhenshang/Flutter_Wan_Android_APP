@@ -13,7 +13,7 @@ import '../../../common_ui/cache_network_image/cache_network_image.dart';
 import '../../../common_ui/dialog/loading_dialog.dart';
 import '../../../route/route.dart';
 import '../../../route/route_utils.dart';
-import '../../web_view_page.dart';
+import '../../webview/web_view_page.dart';
 
 class SystemStudyDetailShowListPage extends StatefulWidget {
   final int id;

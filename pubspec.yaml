@@ -76,6 +76,8 @@ dev_dependencies:
   flutter_easyrefresh: ^2.2.2
   # uuid: 生成唯一标识
   uuid: ^4.4.2
+  # getx： 状态管理
+  get: ^4.6.6
 
 
 # For information on the generic Dart part of this file, see the
