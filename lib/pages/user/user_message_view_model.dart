@@ -22,6 +22,9 @@ class UserMessageViewModel extends ChangeNotifier {
   //空等级
   final int _emptyUserLevel = 0;
 
+  //是否登录
+  bool isLoginSuccess = false;
+
   //endregion
 
   UserMessage userMessage = UserMessage();
@@ -70,13 +73,14 @@ class UserMessageViewModel extends ChangeNotifier {
 
   ///检查是否登录
   Future<bool> isLogin() async {
-    return await SpUtils.getBool(SpKey.isLoginSuccess) ?? false;
+    isLoginSuccess = await SpUtils.getBool(SpKey.isLoginSuccess) ?? false;
+    return isLoginSuccess;
   }
 
   ///退出登录
-  Future logout() async {
+  Future<bool> logout() async {
     if(await isLogin()){
-      Api.getInstance().logout();
+      bool result = await Api.getInstance().logout();
       //清除登录信息
       SpUtils.saveBool(SpKey.isLoginSuccess, false);
       SpUtils.remove(SpKey.userId);
@@ -90,8 +94,14 @@ class UserMessageViewModel extends ChangeNotifier {
       userMessage.coinCount = _emptyCoinCount;
       userMessage.userLevel = _emptyUserLevel;
       userMessage.userIconLink = _emptyUserIconLink;
+
+      //设置登录未成功
+      isLoginSuccess = false;
       notifyListeners();
+
+      return result;
     }
+    return false;
   }
 
 }

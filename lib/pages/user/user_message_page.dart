@@ -4,6 +4,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/services.dart';
 import 'package:wan_android_flutter_test/common_ui/bottom_navigation/common_index_stack_with_bottom_navigation.dart';
 import 'package:wan_android_flutter_test/common_ui/cache_network_image/cache_network_image.dart';
+import 'package:wan_android_flutter_test/pages/tab_page.dart';
 import 'package:wan_android_flutter_test/pages/user/user_message_view_model.dart';
 import 'package:wan_android_flutter_test/route/route.dart';
 import 'package:wan_android_flutter_test/route/route_utils.dart';
@@ -30,6 +31,7 @@ class _UserPageState extends State<UserPage> {
   @override
   void initState() {
     super.initState();
+    viewModel.isLogin();
     viewModel.getUserMessage();
   }
 
@@ -74,6 +76,8 @@ class _UserPageState extends State<UserPage> {
                         if (isLoginSuccess) {
                           // 登录成功，刷新用户信息
                           viewModel.getUserMessage();
+                          RouteUtils.pushAndRemoveUntil(
+                              RouteUtils.context, const TabPage());
                         }
                       }
                     });
@@ -141,7 +145,10 @@ class _UserPageState extends State<UserPage> {
         SizedBox(height: 30.h),
         _logoutButton(() {
           //退出登录
-          viewModel.logout();
+          viewModel.logout().then((value) {
+            //退出登录弹出栈重新加载整个页面，以刷新列表的状态
+            RouteUtils.pushAndRemoveUntil(RouteUtils.context, const TabPage());
+          });
         })
       ],
     );
@@ -149,21 +156,25 @@ class _UserPageState extends State<UserPage> {
 
   ///退出登录按钮
   Widget _logoutButton(VoidCallback onPressed) {
-    return InkWell(
-      splashColor: gray60CDCDCD,
-      onTap: () {
-        onPressed.call();
-      },
-      child: Container(
-        color: Colors.white,
-        width: double.infinity,
-        padding: EdgeInsets.only(top: 25.h, bottom: 25.h),
-        child: Center(
-            child: Text("退出登录",
-                style:
-                    TextStyle(fontSize: 30.sp, fontWeight: FontWeight.w600))),
-      ),
-    );
+    return Consumer<UserMessageViewModel>(builder: (context, viewModel, child) {
+      return viewModel.isLoginSuccess
+          ? InkWell(
+              splashColor: gray60CDCDCD,
+              onTap: () {
+                onPressed.call();
+              },
+              child: Container(
+                color: Colors.white,
+                width: double.infinity,
+                padding: EdgeInsets.only(top: 25.h, bottom: 25.h),
+                child: Center(
+                    child: Text("退出登录",
+                        style: TextStyle(
+                            fontSize: 30.sp, fontWeight: FontWeight.w600))),
+              ),
+            )
+          : const SizedBox.shrink();
+    });
   }
 
   ///单个选项
