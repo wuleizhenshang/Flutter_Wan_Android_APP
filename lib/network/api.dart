@@ -3,6 +3,7 @@ import 'package:wan_android_flutter_test/bean/home_article_list_bean.dart';
 import 'package:wan_android_flutter_test/bean/hot_search_word.dart';
 import 'package:wan_android_flutter_test/bean/login_bean.dart';
 import 'package:wan_android_flutter_test/bean/register_bean.dart';
+import 'package:wan_android_flutter_test/bean/system_detail_list_bean.dart';
 import 'package:wan_android_flutter_test/bean/system_list_bean.dart';
 import 'package:wan_android_flutter_test/bean/user_message_bean.dart';
 import 'package:wan_android_flutter_test/bean/usually_use_website.dart';
@@ -104,7 +105,7 @@ class Api {
   Future<bool> collectArticle(int id) async {
     Response response =
         await DioInstance.getInstance().post(path: "lg/collect/$id/json");
-    if(response.data!=null&&response.data is bool){
+    if (response.data != null && response.data is bool) {
       return response.data;
     }
     return false;
@@ -112,18 +113,26 @@ class Api {
 
   ///取消收藏文章
   Future<bool> unCollectArticle(int id) async {
-    Response response =
-        await DioInstance.getInstance().post(path: "lg/uncollect_originId/$id/json");
-    if(response.data!=null&&response.data is bool){
+    Response response = await DioInstance.getInstance()
+        .post(path: "lg/uncollect_originId/$id/json");
+    if (response.data != null && response.data is bool) {
       return response.data;
     }
     return false;
   }
 
   ///获取收藏文章列表
-  Future<List<HomeArticleListData>>getCollectArticleList(int pageCount) async {
+  Future<List<HomeArticleListData>> getCollectArticleList(int pageCount) async {
     Response response = await DioInstance.getInstance()
         .get(path: "lg/collect/list/$pageCount/json");
     return HomeArticleListBean.fromJson(response.data).datas ?? [];
+  }
+
+  ///获取体系某个id的文章列表
+  Future<List<SystemDetailArticleBean>> getSystemDetailListById(
+      int id, int page) async {
+    Response response = await DioInstance.getInstance()
+        .get(path: "article/list/$page/json?cid=$id");
+    return SystemDetailListBean.fromJson(response.data).datas ?? [];
   }
 }

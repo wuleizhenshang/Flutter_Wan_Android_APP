@@ -17,17 +17,25 @@ class SystemViewModel extends ChangeNotifier {
     //不用再显示加载,由下拉提示
     //notifyListeners();
     knowledgeListModel = await Api.getInstance().getKnowledgeList();
-    knowledgeListModel?.list.forEach((element) {
-      //主标题
-      String title = element?.name ?? "";
-      List<String> subtitleList = [];
-      element?.children?.forEach((child) {
-        subtitleList.add(child.name ?? "");
-      });
-      String subtitle = subtitleList.join("  ");
-      systemMainListBean.addSystemMainList(SystemMainBean(
-          systemMainListBean.systemMainList.length, title, subtitle));
-    });
+    if(knowledgeListModel != null){
+      for(int i = 0; i < knowledgeListModel!.list.length; i++){
+        //主标题
+        String title = knowledgeListModel!.list[i]?.name ?? "";
+        List<String> subtitleList = [];
+        List<int> idList = [];
+        knowledgeListModel!.list[i]?.children?.forEach((child) {
+          subtitleList.add(child.name ?? "");
+          //-1的话id有问题
+          idList.add(child.id as int? ?? -1);
+        });
+        //String subtitle = subtitleList.join("  ");
+        systemMainListBean.addSystemMainList(SystemMainBean(
+            i,
+            title,
+            subtitleList,
+            idList));
+      }
+    }
     isFirstLoading = false;
     //更新ui
     notifyListeners();
@@ -56,7 +64,8 @@ class SystemMainBean {
   //标记点击哪一个
   int id;
   String title;
-  String subtitle;
+  List<String> subtitleList;
+  List<int> idList;
 
-  SystemMainBean(this.id, this.title, this.subtitle);
+  SystemMainBean(this.id, this.title, this.subtitleList, this.idList);
 }

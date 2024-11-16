@@ -272,8 +272,8 @@ class _HomePageState extends State<HomePage> {
                         SizedBox(width: 15.w),
                         Text(
                             data.author?.isEmpty ?? true
-                                ? data.shareUser ?? ""
-                                : "",
+                                ? data.shareUser ?? "author"
+                                : data.author ?? "author",
                             style: TextStyle(
                                 color: Colors.black, fontSize: 22.sp)),
                         //SizedBox是一个widget，可以设置宽高，用来占位

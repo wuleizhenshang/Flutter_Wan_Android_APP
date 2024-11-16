@@ -74,6 +74,8 @@ dev_dependencies:
   cached_network_image: ^3.4.1
   # flutter_easyrefresh: 下拉刷新上拉加载
   flutter_easyrefresh: ^2.2.2
+  # uuid: 生成唯一标识
+  uuid: ^4.4.2
 
 
 # For information on the generic Dart part of this file, see the

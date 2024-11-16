@@ -3,9 +3,12 @@ import 'dart:ffi';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:wan_android_flutter_test/pages/system/home/system_view_model.dart';
+import 'package:wan_android_flutter_test/pages/system/detail/system_study_detail_page.dart';
+import 'package:wan_android_flutter_test/pages/system/home/system_study_view_model.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:wan_android_flutter_test/route/route.dart';
+import 'package:wan_android_flutter_test/route/route_utils.dart';
 import 'package:wan_android_flutter_test/theme/color.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
 
@@ -69,29 +72,32 @@ class _SystemStudyPageState extends State<SystemStudyPage> {
               }),
               body: SafeArea(child:
                   Consumer<SystemViewModel>(builder: (context, vm, child) {
-                return viewModel.isFirstLoading?
-                Container(
-                    color: Colors.white,
-                    child:
-                    Center(child: CircularProgressIndicator(color: blue87CEFA))):// 页面内容
-                EasyRefresh(
-                  controller: _controller,
-                  // 刷新
-                  onRefresh: () async {
-                    viewModel.fetchData().then((value) {
-                      _controller.finishRefresh();
-                    });
-                  },
-                  child: ListView.builder(
-                    controller: scrollController,
-                    itemBuilder: (context, index) {
-                      return _singleSystemMainListUi(viewModel
-                          .systemMainListBean.systemMainList[index]);
-                    },
-                    itemCount: viewModel
-                        .systemMainListBean.systemMainList.length,
-                  ),
-                );
+                return viewModel.isFirstLoading
+                    ? Container(
+                        color: Colors.white,
+                        child: Center(
+                            child:
+                                CircularProgressIndicator(color: blue87CEFA)))
+                    : // 页面内容
+                    EasyRefresh(
+                        controller: _controller,
+                        // 刷新
+                        enableControlFinishRefresh: true,
+                        onRefresh: () async {
+                          viewModel.fetchData().then((value) {
+                            _controller.finishRefresh();
+                          });
+                        },
+                        child: ListView.builder(
+                          controller: scrollController,
+                          itemBuilder: (context, index) {
+                            return _singleSystemMainListUi(viewModel
+                                .systemMainListBean.systemMainList[index]);
+                          },
+                          itemCount: viewModel
+                              .systemMainListBean.systemMainList.length,
+                        ),
+                      );
               })),
             )));
   }
@@ -115,28 +121,62 @@ class _SystemStudyPageState extends State<SystemStudyPage> {
   Widget _singleSystemMainListUi(SystemMainBean bean) {
     return Container(
         margin: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
-        padding: EdgeInsets.all(15.w),
         decoration: BoxDecoration(
             border: Border.all(color: grayFF999999, width: 1.w),
             borderRadius: BorderRadius.circular(10.r)),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Expanded(
-                child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(bean.title,
-                    style: TextStyle(
-                        fontSize: 30.sp, fontWeight: FontWeight.bold)),
-                SizedBox(height: 10.h),
-                Text(bean.subtitle, style: TextStyle(fontSize: 26.sp))
-              ],
-            )),
-            SizedBox(width: 15.w),
-            Image.asset("assets/images/ic_arrow_right.png",
-                width: 40.w, height: 40.h)
-          ],
-        ));
+        child: InkWell(
+            radius: 30.r,
+            borderRadius: BorderRadius.circular(10.r),
+            onTap: () {
+              RouteUtils.push(context,
+                  SystemStudyDetailPage(systemMainBean: bean, index: 0));
+            },
+            child: Container(
+                padding: EdgeInsets.all(15.w),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Expanded(
+                        child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(bean.title,
+                            style: TextStyle(
+                                fontSize: 30.sp, fontWeight: FontWeight.bold)),
+                        SizedBox(height: 10.h),
+                        _wrapTagList(bean)
+                      ],
+                    )),
+                    SizedBox(width: 15.w),
+                    Image.asset("assets/images/ic_arrow_right.png",
+                        width: 40.w, height: 40.h)
+                  ],
+                ))));
+  }
+
+  ///单个体系子列表底部的流式标签列表
+  Widget _wrapTagList(SystemMainBean systemMainBean) {
+    return Wrap(
+      spacing: 10.w,
+      runSpacing: 10.h,
+      alignment: WrapAlignment.start,
+      children: List.generate(systemMainBean.subtitleList.length, (index) {
+        return GestureDetector(
+            onTap: () {
+              RouteUtils.push(
+                  context,
+                  SystemStudyDetailPage(
+                      systemMainBean: systemMainBean, index: index));
+            },
+            child: Chip(
+                label: Text(systemMainBean.subtitleList[index]),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15.r),
+                    side: BorderSide(color: blue87CEFA, width: 1.w)),
+                backgroundColor: grayFFF9F9F9,
+                padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 5.h),
+                elevation: 0));
+      }),
+    );
   }
 }
