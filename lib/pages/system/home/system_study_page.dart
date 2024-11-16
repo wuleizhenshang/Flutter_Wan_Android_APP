@@ -3,7 +3,7 @@ import 'dart:ffi';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:wan_android_flutter_test/pages/system/system_view_model.dart';
+import 'package:wan_android_flutter_test/pages/system/home/system_view_model.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:wan_android_flutter_test/theme/color.dart';
@@ -69,40 +69,29 @@ class _SystemStudyPageState extends State<SystemStudyPage> {
               }),
               body: SafeArea(child:
                   Consumer<SystemViewModel>(builder: (context, vm, child) {
-                return Stack(children: [
-                  // 页面内容
-                  EasyRefresh(
-                    controller: _controller,
-                    // 刷新
-                    onRefresh: () async {
-                      viewModel.fetchData().then((value) {
-                        _controller.finishRefresh();
-                      });
+                return viewModel.isFirstLoading?
+                Container(
+                    color: Colors.white,
+                    child:
+                    Center(child: CircularProgressIndicator(color: blue87CEFA))):// 页面内容
+                EasyRefresh(
+                  controller: _controller,
+                  // 刷新
+                  onRefresh: () async {
+                    viewModel.fetchData().then((value) {
+                      _controller.finishRefresh();
+                    });
+                  },
+                  child: ListView.builder(
+                    controller: scrollController,
+                    itemBuilder: (context, index) {
+                      return _singleSystemMainListUi(viewModel
+                          .systemMainListBean.systemMainList[index]);
                     },
-                    child: vm.isLoading
-                        ? const SizedBox.shrink() // 在加载时不显示列表内容
-                        : ListView.builder(
-                            controller: scrollController,
-                            itemBuilder: (context, index) {
-                              return _singleSystemMainListUi(viewModel
-                                  .systemMainListBean.systemMainList[index]);
-                            },
-                            itemCount: viewModel
-                                .systemMainListBean.systemMainList.length,
-                          ),
+                    itemCount: viewModel
+                        .systemMainListBean.systemMainList.length,
                   ),
-                  // 加载指示器居中
-                  vm.isLoading
-                      ?
-                      //Positioned 通常用来控制子组件在 Stack 中的定位,fill 会填充满整个 Stack
-                      Positioned.fill(
-                          child: Align(
-                            alignment: Alignment.center,
-                            child: CircularProgressIndicator(color: blue87CEFA),
-                          ),
-                        )
-                      : const SizedBox.shrink()
-                ]);
+                );
               })),
             )));
   }

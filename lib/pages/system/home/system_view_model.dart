@@ -7,14 +7,13 @@ class SystemViewModel extends ChangeNotifier {
   SystemMainListBean systemMainListBean = SystemMainListBean();
 
   //是否在加载
-  bool isLoading = false;
+  bool isFirstLoading = true;
 
   //是否显示回到顶部按钮
   bool showToTopBtn = false;
 
   ///获取数据
   Future fetchData() async {
-    isLoading = true;
     //不用再显示加载,由下拉提示
     //notifyListeners();
     knowledgeListModel = await Api.getInstance().getKnowledgeList();
@@ -29,7 +28,7 @@ class SystemViewModel extends ChangeNotifier {
       systemMainListBean.addSystemMainList(SystemMainBean(
           systemMainListBean.systemMainList.length, title, subtitle));
     });
-    isLoading = false;
+    isFirstLoading = false;
     //更新ui
     notifyListeners();
   }

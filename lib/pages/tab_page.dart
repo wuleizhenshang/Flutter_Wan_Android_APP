@@ -7,7 +7,7 @@ import 'package:wan_android_flutter_test/main.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:wan_android_flutter_test/pages/home/home_page.dart';
 import 'package:wan_android_flutter_test/pages/hot_point/hot_point_page.dart';
-import 'package:wan_android_flutter_test/pages/system/system_study_page.dart';
+import 'package:wan_android_flutter_test/pages/system/home/system_study_page.dart';
 import 'package:wan_android_flutter_test/pages/user/user_message_page.dart';
 import 'package:wan_android_flutter_test/theme/color.dart';
 
