@@ -94,4 +94,9 @@ class DioInstance {
                 sendTimeout: _defaultTime),
         cancelToken: cancelToken);
   }
+
+  ///修改baseUrl
+  void changeBaseUrl(String baseUrl) {
+    _dio.options.baseUrl = baseUrl;
+  }
 }

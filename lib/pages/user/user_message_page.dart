@@ -2,6 +2,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/services.dart';
+import 'package:wan_android/common_ui/dialog/dialog_factory.dart';
+import 'package:wan_android/common_ui/dialog/loading_dialog.dart';
+import 'package:wan_android/common_ui/dialog/should_update_app_dialog.dart';
+import 'package:wan_android/network/pgy/pgy.dart';
+import '../webview/web_view_page.dart';
 import '/common_ui/bottom_navigation/common_index_stack_with_bottom_navigation.dart';
 import '/common_ui/cache_network_image/cache_network_image.dart';
 import '/pages/main_tab/tab_page.dart';
@@ -151,9 +156,47 @@ class _UserPageState extends State<UserPage> {
           RouteUtils.pushForNamed(context, RoutePath.aboutAppPage);
         }),
         Container(width: double.infinity, height: 1, color: grayFFCDCDCD),
-        _singleOptionUi("关于开发者", () {}),
+        _singleOptionUi("关于开发者", () {
+          //跳到个人博客
+          RouteUtils.pushForNamed(context, RoutePath.webViewPage, arguments: {
+            WebViewPage.name: "无泪真伤",
+            WebViewPage.url: "https://wuleizhenshang.github.io"
+          });
+        }),
         Container(width: double.infinity, height: 1, color: grayFFCDCDCD),
-        _singleOptionUi("检查更新", () {}),
+        _singleOptionUi("检查更新", () {
+          //检查更新
+          LoadingDialog.show(context);
+          PgyDio.getInstance().checkUpdate().then((value) {
+
+            viewModel.checkUpdate().then((value) {
+              LoadingDialog.dismiss(context);
+
+              //不为空并且有更新
+              if (value != null && value.isNotEmpty) {
+                // DialogFactory.instance.showNeedUpdateDialog(
+                //     context: context,
+                //     //点击取消
+                //     dismissClick: () {
+                //       //不更新，显示小红点
+                //     },
+                //     //点击确认
+                //     confirmClick: () {
+                //       viewModel.jumpToOutLink(value);
+                //     });
+                ShouldUpdateDialog.show(context, dismissClick: () {
+                  ShouldUpdateDialog.dismiss(context);
+                }, confirmClick: () {
+                  viewModel.jumpToOutLink(value).then((value) {
+                    ShouldUpdateDialog.dismiss(context);
+                  });
+                });
+              } else {
+                Fluttertoast.showToast(msg: "已经是最新版本");
+              }
+            });
+          });
+        }),
         SizedBox(height: 30.h),
         _logoutButton(() {
           //退出登录

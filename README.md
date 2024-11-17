@@ -111,5 +111,7 @@ dev_dependencies:
   device_info_plus: ^11.1.1
   # flutter_html: 富文本解析
   flutter_html_all: ^3.0.0-beta.2
+  # url_launcher: 打开外部链接
+  url_launcher: ^6.3.1
 ```
 

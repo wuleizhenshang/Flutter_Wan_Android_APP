@@ -1,9 +1,13 @@
 import 'package:flutter/cupertino.dart';
+import 'package:wan_android/network/pgy/pgy.dart';
+import '../../bean/pgy_update_bean.dart';
 import '/bean/user_message_bean.dart';
 import '/memory/sp/sp_key_constant.dart';
 import '/memory/sp/sp_utils.dart';
 import '/network/Api.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:package_info_plus/package_info_plus.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class UserMessageViewModel extends ChangeNotifier {
   //region 空数据
@@ -79,7 +83,7 @@ class UserMessageViewModel extends ChangeNotifier {
 
   ///退出登录
   Future<bool> logout() async {
-    if(await isLogin()){
+    if (await isLogin()) {
       bool result = await Api.getInstance().logout();
       //清除登录信息
       SpUtils.saveBool(SpKey.isLoginSuccess, false);
@@ -104,6 +108,39 @@ class UserMessageViewModel extends ChangeNotifier {
     return false;
   }
 
+  ///检查更新
+  Future<String?> checkUpdate() async {
+    var packageInfo = await PackageInfo.fromPlatform();
+    //获取当前app版本的code
+    var versionCode = packageInfo.buildNumber;
+
+    //获取网络上的版本信息
+    PgyUpdateBean? pgyBean = await PgyDio.getInstance().checkUpdate();
+
+    String onlineVersionCode = pgyBean?.data.buildVersionNo ?? "0";
+
+    //Fluttertoast.showToast(msg: "当前版本：$versionCode 线上版本：$onlineVersionCode");
+
+    //如果当前版本小于线上版本，则提示更新，否则返回null
+    try {
+      if (int.parse(versionCode) < int.parse(onlineVersionCode)) {
+        return pgyBean?.data.downloadUrl ?? null;
+      } else {
+        return null;
+      }
+    } catch (e) {
+      print(e);
+      return null;
+    }
+  }
+
+  ///跳转到外部链接
+  Future jumpToOutLink(String? url) async {
+    final uri = Uri.parse(url ?? "");
+    if (await canLaunchUrl(uri)) {
+      await launchUrl(uri);
+    }
+  }
 }
 
 class UserMessage {
