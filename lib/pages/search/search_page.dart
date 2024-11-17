@@ -10,6 +10,7 @@ import 'package:wan_android_flutter_test/theme/color.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
 
 import '../../common_ui/cache_network_image/cache_network_image.dart';
+import '../../common_ui/dialog/loading_dialog.dart';
 import '../../common_ui/input_field/input_field_with_icon_cancel_ui.dart';
 import '../../route/route.dart';
 import '../../route/route_utils.dart';
@@ -39,6 +40,7 @@ class _SearchPageState extends State<SearchPage> {
   final EasyRefreshController _easyRefreshController = EasyRefreshController();
 
   //初始化viewModel，getx为全局单例，不会自动销毁
+  ///Obx管理需要Put进去，GetX管理不需要
   final SearchViewModel viewModel = Get.put(SearchViewModel());
 
   //焦点状态
@@ -51,7 +53,7 @@ class _SearchPageState extends State<SearchPage> {
     //设置ViewModel，不为空加载
     viewModel.setSearchKey(widget.initKey ?? "");
     controller.text = widget.initKey ?? "";
-    if(widget.initKey?.isNotEmpty ?? false){
+    if (widget.initKey?.isNotEmpty ?? false) {
       viewModel.searchByKeyword();
     }
 
@@ -90,51 +92,99 @@ class _SearchPageState extends State<SearchPage> {
                 Container(
                     width: double.infinity, color: grayFF999999, height: 1.h),
 
-                GetX<SearchViewModel>(builder: (viewModel) {
-                  return Expanded(
-                    ///isFirstLoading和isLoading都为true时，显示加载框
-                    ///isFirstLoading为true，isLoading为false时，什么都不显示
-                    ///isFirstLoading和isLoading都为false时，list为空，显示空布局
-                    ///isFirstLoading为false，isLoading为true时，显示加载框
-                    child: (viewModel.isFirstLoading.value &&
-                            viewModel.isLoading.value)
-                        ? Center(
-                            child: CircularProgressIndicator(color: blue87CEFA))
-                        : (viewModel.isFirstLoading.value
-                            ? const SizedBox.shrink()
-                            : (viewModel.searchResultTotal.value == 0
-                                ? Center(
-                                    child: Text("搜索结果为null",
-                                        style: TextStyle(
-                                            color: Colors.black,
-                                            fontSize: 30.sp)))
-                                //有搜索结果显示搜索结果
-                                : EasyRefresh(
-                                    controller: _easyRefreshController,
-                                    enableControlFinishLoad: true,
-                                    onLoad: () async {
-                                      viewModel
-                                          .searchByKeyword(isLoadMore: true)
-                                          .then((value) {
-                                        //为空加载到头了
-                                        if (value.isNotEmpty) {
-                                          _easyRefreshController.finishLoad();
-                                        } else {
-                                          _easyRefreshController.finishLoad(
-                                              noMore: true);
-                                        }
-                                      });
-                                    },
-                                    child: ListView.builder(
-                                        itemCount:
-                                            viewModel.searchResultList.length,
-                                        itemBuilder: (context, index) {
-                                          return _listItemView(
-                                              viewModel.searchResultList[index],
-                                              index);
-                                        })))),
-                  );
-                })
+                ///Get的响应式管理的两种方式
+                //TODO GetX管理
+                // GetX<SearchViewModel>(builder: (viewModel) {
+                //   return Expanded(
+                //     ///isFirstLoading和isLoading都为true时，显示加载框
+                //     ///isFirstLoading为true，isLoading为false时，什么都不显示
+                //     ///其余情况看回调是否关闭刷新，list为空的话就显示搜索结果为空
+                //     child: (viewModel.isFirstLoading.value &&
+                //             viewModel.isLoading.value)
+                //         ? Center(
+                //             child: CircularProgressIndicator(color: blue87CEFA))
+                //         : (viewModel.isFirstLoading.value
+                //             ? const SizedBox.shrink()
+                //             : (viewModel.searchResultTotal.value == 0
+                //                 ? Center(
+                //                     child: Text("搜索结果为null",
+                //                         style: TextStyle(
+                //                             color: Colors.black,
+                //                             fontSize: 30.sp)))
+                //                 //有搜索结果显示搜索结果
+                //                 : EasyRefresh(
+                //                     controller: _easyRefreshController,
+                //                     enableControlFinishLoad: true,
+                //                     onLoad: () async {
+                //                       viewModel
+                //                           .searchByKeyword(isLoadMore: true)
+                //                           .then((value) {
+                //                         //为空加载到头了
+                //                         if (value.isNotEmpty) {
+                //                           _easyRefreshController.finishLoad();
+                //                         } else {
+                //                           _easyRefreshController.finishLoad(
+                //                               noMore: true);
+                //                         }
+                //                       });
+                //                     },
+                //                     child: ListView.builder(
+                //                         itemCount:
+                //                             viewModel.searchResultTotal.value,
+                //                         itemBuilder: (context, index) {
+                //                           return _listItemView(
+                //                               viewModel.searchResultList[index],
+                //                               index);
+                //                         })))),
+                //   );
+                // }),
+
+                //TODO Obx管理
+                Obx(() => Expanded(
+                      ///isFirstLoading和isLoading都为true时，显示加载框
+                      ///isFirstLoading为true，isLoading为false时，什么都不显示
+                      ///其余情况看回调是否关闭刷新，list为空的话就显示搜索结果为空
+                      child: (viewModel.isFirstLoading.value &&
+                              viewModel.isLoading.value)
+                          ? Center(
+                              child:
+                                  CircularProgressIndicator(color: blue87CEFA))
+                          : (viewModel.isFirstLoading.value
+                              ? const SizedBox.shrink()
+                              : (viewModel.searchResultTotal.value == 0
+                                  ? Center(
+                                      child: Text("搜索结果为null",
+                                          style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 30.sp)))
+                                  //有搜索结果显示搜索结果
+                                  : EasyRefresh(
+                                      controller: _easyRefreshController,
+                                      enableControlFinishLoad: true,
+                                      onLoad: () async {
+                                        viewModel
+                                            .searchByKeyword(isLoadMore: true)
+                                            .then((value) {
+                                          //为空加载到头了
+                                          if (value.isNotEmpty) {
+                                            _easyRefreshController.finishLoad();
+                                          } else {
+                                            _easyRefreshController.finishLoad(
+                                                noMore: true);
+                                          }
+                                        });
+                                      },
+                                      child: ListView.builder(
+                                          itemCount:
+                                          viewModel
+                                              .searchResultList.length,
+                                          itemBuilder: (context, index) {
+                                            return _listItemView(
+                                                viewModel
+                                                    .searchResultList[index],
+                                                index);
+                                          })))),
+                    ))
               ],
             ))));
   }
@@ -189,7 +239,7 @@ class _SearchPageState extends State<SearchPage> {
   }
 
   ///单个文章布局Item的UI
-  Widget _listItemView(SearchItemBean data, int index) {
+  Widget _listItemView(ObservableSearchItemBean data, int index) {
     return Container(
         decoration: BoxDecoration(
             border: Border.all(color: grayFF999999, width: 1.5.r),
@@ -211,8 +261,8 @@ class _SearchPageState extends State<SearchPage> {
               //Navigator.pushNamed(context, RoutePath.webViewPage);
               RouteUtils.pushForNamed(context, RoutePath.webViewPage,
                   arguments: {
-                    WebViewPage.name: data.title,
-                    WebViewPage.url: data.link
+                    WebViewPage.name: data.item.title,
+                    WebViewPage.url: data.item.link
                   });
             },
             child: Container(
@@ -244,9 +294,9 @@ class _SearchPageState extends State<SearchPage> {
                         //要设置间距，可以用SizedBox，也可以用Padding组件
                         SizedBox(width: 15.w),
                         Text(
-                            data.author?.isEmpty ?? true
-                                ? data.shareUser ?? "author"
-                                : data.author ?? "author",
+                            data.item.author?.isEmpty ?? true
+                                ? data.item.shareUser ?? "author"
+                                : data.item.author ?? "author",
                             style: TextStyle(
                                 color: Colors.black, fontSize: 22.sp)),
                         //SizedBox是一个widget，可以设置宽高，用来占位
@@ -254,12 +304,12 @@ class _SearchPageState extends State<SearchPage> {
                         //设置边距也可以这样
                         Padding(
                             padding: EdgeInsets.only(right: 15.w),
-                            child: Text(data.niceShareDate ?? "",
+                            child: Text(data.item.niceShareDate ?? "",
                                 style: TextStyle(
                                     color: Colors.black, fontSize: 20.sp))),
 
                         ///置顶文字字样，type 0 是正常文章，1是置顶文章
-                        (data.type?.toInt() == 1)
+                        (data.item.type?.toInt() == 1)
                             ? Text("置顶",
                                 style: TextStyle(
                                     color: Colors.blue,
@@ -268,14 +318,35 @@ class _SearchPageState extends State<SearchPage> {
                             : const SizedBox(),
                       ]),
                       SizedBox(height: 10.h),
-                      Text(data.title ?? "",
+                      Text(data.item.title ?? "",
                           style:
                               TextStyle(color: Colors.black, fontSize: 24.sp)),
                       Row(children: [
-                        Text(data.chapterName ?? "",
+                        Text(data.item.chapterName ?? "",
                             style: TextStyle(
                                 color: Colors.lightGreen, fontSize: 20.sp)),
-                        const Expanded(child: SizedBox())
+                        const Expanded(child: SizedBox()),
+                        GestureDetector(
+                            onTap: () {
+                              //收藏或者取消收藏
+                              if (data.item.id != null && data.item.id is int) {
+                                LoadingDialog.show(context,
+                                    circularProgressColor: grayFFBFBFBF,
+                                    textColor: grayFFBFBFBF);
+                                viewModel
+                                    .collect(data.item.id as int, index)
+                                    .then((value) {
+                                  LoadingDialog.dismiss(context);
+                                });
+                              }
+                            },
+                            child: Container(
+                                padding: EdgeInsets.all(10.w),
+                                child: data.item.collect ?? false
+                                    ? Image.asset("assets/images/ic_like.png",
+                                        width: 45.r, height: 45.r)
+                                    : Image.asset("assets/images/ic_unlike.png",
+                                        width: 45.r, height: 45.r)))
                       ])
                     ]))));
   }

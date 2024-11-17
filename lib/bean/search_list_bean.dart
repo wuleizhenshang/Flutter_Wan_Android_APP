@@ -120,6 +120,13 @@ class SearchItemBean {
         this.visible,
         this.zan});
 
+  //复制修改
+  SearchItemBean copyWith({bool? collect}) {
+    return SearchItemBean(
+      collect: collect ?? this.collect,
+    );
+  }
+
   SearchItemBean.fromJson(Map<String, dynamic> json) {
     adminAdd = json['adminAdd'];
     apkLink = json['apkLink'];
