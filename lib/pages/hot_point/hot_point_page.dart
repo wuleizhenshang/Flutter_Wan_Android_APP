@@ -3,16 +3,17 @@ import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:wan_android_flutter_test/bean/hot_search_word.dart';
-import 'package:wan_android_flutter_test/bean/usually_use_website.dart';
-import 'package:wan_android_flutter_test/common_ui/bottom_navigation/common_index_stack_with_bottom_navigation.dart';
-import 'package:wan_android_flutter_test/pages/hot_point/hot_point_view_model.dart';
+
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:wan_android_flutter_test/pages/search/search_page.dart';
-import 'package:wan_android_flutter_test/pages/webview/web_view_page.dart';
-import 'package:wan_android_flutter_test/route/route_utils.dart';
-import 'package:wan_android_flutter_test/route/route.dart';
-import 'package:wan_android_flutter_test/theme/color.dart';
+
+import '../../bean/hot_search_word.dart';
+import '../../bean/usually_use_website.dart';
+import '../../route/route.dart';
+import '../../route/route_utils.dart';
+import '../../theme/color.dart';
+import '../search/search_page.dart';
+import '../webview/web_view_page.dart';
+import 'hot_point_view_model.dart';
 
 class HotPointPage extends StatefulWidget {
   const HotPointPage({super.key});
@@ -30,11 +31,6 @@ class _HotPointPageState extends State<HotPointPage> {
   @override
   void initState() {
     super.initState();
-    //设置状态栏颜色
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-      statusBarColor: grayFFF5F5F5,
-      statusBarIconBrightness: Brightness.dark,
-    ));
     //获取数据
     viewModel.fetchData();
   }

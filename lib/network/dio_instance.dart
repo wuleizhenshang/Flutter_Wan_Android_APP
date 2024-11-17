@@ -1,9 +1,12 @@
 import 'package:dio/dio.dart';
-import 'package:wan_android_flutter_test/network/interceptors/cookie_interceptor.dart';
-import 'package:wan_android_flutter_test/network/interceptors/print_log_interceptor.dart';
-import 'package:wan_android_flutter_test/network/interceptors/response_interceptor.dart';
+import '/network/interceptors/cookie_interceptor.dart';
+import '/network/interceptors/print_log_interceptor.dart';
+import '/network/interceptors/response_interceptor.dart';
 
 import 'http_method.dart';
+import 'interceptors/cookie_interceptor.dart';
+import 'interceptors/print_log_interceptor.dart';
+import 'interceptors/response_interceptor.dart';
 
 ///Dio的单例模式
 class DioInstance {

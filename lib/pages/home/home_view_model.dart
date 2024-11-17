@@ -2,15 +2,14 @@ import 'dart:ffi';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:wan_android_flutter_test/bean/home_article_list_bean.dart';
-import 'package:wan_android_flutter_test/common_ui/dialog/loading_dialog.dart';
-import 'package:wan_android_flutter_test/memory/sp/sp_utils.dart';
-import 'package:wan_android_flutter_test/network/api.dart';
-import 'package:wan_android_flutter_test/network/dio_instance.dart';
 
 import '../../bean/HomeBannerBean.dart';
+import '../../bean/home_article_list_bean.dart';
 import '../../memory/sp/sp_key_constant.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+
+import '../../memory/sp/sp_utils.dart';
+import '../../network/Api.dart';
 
 //首页的ViewModel
 //provider简单使用

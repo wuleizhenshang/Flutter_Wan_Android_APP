@@ -3,13 +3,13 @@ import 'dart:ffi';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:wan_android_flutter_test/pages/system/detail/system_study_detail_page.dart';
-import 'package:wan_android_flutter_test/pages/system/home/system_study_view_model.dart';
+import '/pages/system/detail/system_study_detail_page.dart';
+import '/pages/system/home/system_study_view_model.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:wan_android_flutter_test/route/route.dart';
-import 'package:wan_android_flutter_test/route/route_utils.dart';
-import 'package:wan_android_flutter_test/theme/color.dart';
+import '/route/route.dart';
+import '/route/route_utils.dart';
+import '/theme/color.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
 
 class SystemStudyPage extends StatefulWidget {

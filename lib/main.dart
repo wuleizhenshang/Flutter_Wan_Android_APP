@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:wan_android_flutter_test/pages/home/home_page.dart';
+import '/pages/home/home_page.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:wan_android_flutter_test/route/route_utils.dart';
-import 'package:wan_android_flutter_test/route/route.dart';
-import 'package:wan_android_flutter_test/theme/color.dart';
+import '/route/route_utils.dart';
+import '/route/route.dart';
+import '/theme/color.dart';
 
 import 'network/dio_instance.dart';
 
@@ -28,7 +28,7 @@ class MyApp extends StatelessWidget {
         splitScreenMode: true,
         builder: (context, child) {
           return MaterialApp(
-            title: 'Flutter Demo',
+            title: 'wan android',
             theme: ThemeData(
                 // colorScheme: ColorScheme.fromSeed(seedColor: blue87CEFA),
                 useMaterial3: true,

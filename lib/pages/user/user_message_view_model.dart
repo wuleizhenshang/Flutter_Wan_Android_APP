@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
-import 'package:wan_android_flutter_test/bean/user_message_bean.dart';
-import 'package:wan_android_flutter_test/memory/sp/sp_key_constant.dart';
-import 'package:wan_android_flutter_test/memory/sp/sp_utils.dart';
-import 'package:wan_android_flutter_test/network/Api.dart';
+import '/bean/user_message_bean.dart';
+import '/memory/sp/sp_key_constant.dart';
+import '/memory/sp/sp_utils.dart';
+import '/network/Api.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 class UserMessageViewModel extends ChangeNotifier {

@@ -2,13 +2,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/services.dart';
-import 'package:wan_android_flutter_test/common_ui/bottom_navigation/common_index_stack_with_bottom_navigation.dart';
-import 'package:wan_android_flutter_test/common_ui/cache_network_image/cache_network_image.dart';
-import 'package:wan_android_flutter_test/pages/main_tab/tab_page.dart';
-import 'package:wan_android_flutter_test/pages/user/user_message_view_model.dart';
-import 'package:wan_android_flutter_test/route/route.dart';
-import 'package:wan_android_flutter_test/route/route_utils.dart';
-import 'package:wan_android_flutter_test/theme/color.dart';
+import '/common_ui/bottom_navigation/common_index_stack_with_bottom_navigation.dart';
+import '/common_ui/cache_network_image/cache_network_image.dart';
+import '/pages/main_tab/tab_page.dart';
+import '/pages/user/user_message_view_model.dart';
+import '/route/route.dart';
+import '/route/route_utils.dart';
+import '/theme/color.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -147,7 +147,9 @@ class _UserPageState extends State<UserPage> {
           });
         }),
         SizedBox(height: 30.h),
-        _singleOptionUi("关于App", () {}),
+        _singleOptionUi("关于App", () {
+          RouteUtils.pushForNamed(context, RoutePath.aboutAppPage);
+        }),
         Container(width: double.infinity, height: 1, color: grayFFCDCDCD),
         _singleOptionUi("关于开发者", () {}),
         Container(width: double.infinity, height: 1, color: grayFFCDCDCD),

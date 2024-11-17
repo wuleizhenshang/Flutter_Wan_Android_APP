@@ -3,8 +3,8 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:wan_android_flutter_test/memory/sp/sp_key_constant.dart';
-import 'package:wan_android_flutter_test/memory/sp/sp_utils.dart';
+import '../../memory/sp/sp_key_constant.dart';
+import '../../memory/sp/sp_utils.dart';
 
 ///cookie拦截器
 class CookieInterceptor extends InterceptorsWrapper {

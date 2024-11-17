@@ -2,11 +2,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:wan_android_flutter_test/bean/search_list_bean.dart';
-import 'package:wan_android_flutter_test/common_ui/input_field/search_page_input_field.dart';
-import 'package:wan_android_flutter_test/pages/search/search_view_model.dart';
+import '/bean/search_list_bean.dart';
+import '/common_ui/input_field/search_page_input_field.dart';
+import '/pages/search/search_view_model.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:wan_android_flutter_test/theme/color.dart';
+import '/theme/color.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
 
 import '../../common_ui/cache_network_image/cache_network_image.dart';

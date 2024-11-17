@@ -1,4 +1,4 @@
-name: wan_android_flutter_test
+name: wan_android
 description: "A new Flutter project."
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
@@ -78,6 +78,12 @@ dev_dependencies:
   uuid: ^4.4.2
   # getx： 状态管理
   get: ^4.6.6
+  # package_info_plus: 获取app信息
+  package_info_plus: ^8.1.1
+  device_info_plus: ^11.1.1
+  # flutter_html: 富文本解析
+  flutter_html_all: ^3.0.0-beta.2
+
 
 
 # For information on the generic Dart part of this file, see the

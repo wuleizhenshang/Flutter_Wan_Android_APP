@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:wan_android_flutter_test/pages/system/show_list/system_study_detail_show_list_view_model.dart';
-import 'package:wan_android_flutter_test/theme/color.dart';
+import '/pages/system/show_list/system_study_detail_show_list_view_model.dart';
+import '/theme/color.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:provider/provider.dart';
 import 'package:fluttertoast/fluttertoast.dart';

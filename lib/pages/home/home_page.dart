@@ -4,17 +4,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_swiper_view/flutter_swiper_view.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:wan_android_flutter_test/bean/home_article_list_bean.dart';
-import 'package:wan_android_flutter_test/common_ui/dialog/loading_dialog.dart';
-import 'package:wan_android_flutter_test/pages/home/home_view_model.dart';
-import 'package:wan_android_flutter_test/pages/webview/web_view_page.dart';
-import 'package:wan_android_flutter_test/route/route_utils.dart';
-import 'package:wan_android_flutter_test/route/route.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
-import 'package:wan_android_flutter_test/theme/color.dart';
 
+
+import '../../bean/home_article_list_bean.dart';
 import '../../common_ui/cache_network_image/cache_network_image.dart';
+import '../../common_ui/dialog/loading_dialog.dart';
+import '../../route/route.dart';
+import '../../route/route_utils.dart';
+import '../../theme/color.dart';
+import '../webview/web_view_page.dart';
+import 'home_view_model.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});

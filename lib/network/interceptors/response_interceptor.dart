@@ -1,11 +1,12 @@
 import 'package:dio/dio.dart';
-import 'package:wan_android_flutter_test/bean/wan_android_base_bean.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:wan_android_flutter_test/route/route_utils.dart';
 
+
+import '../../bean/wan_android_base_bean.dart';
 import '../../memory/sp/sp_key_constant.dart';
 import '../../memory/sp/sp_utils.dart';
 import '../../pages/main_tab/tab_page.dart';
+import '../../route/route_utils.dart';
 
 ///提前解析data，最外层套的部分没了，直接获取到data部分传递给下一层
 class ResponseInterceptor extends InterceptorsWrapper {

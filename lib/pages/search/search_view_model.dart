@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
-import 'package:wan_android_flutter_test/network/Api.dart';
+import '/network/Api.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 import '../../bean/search_list_bean.dart';

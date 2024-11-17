@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:wan_android_flutter_test/pages/my_collect/my_collect_view_model.dart';
+import '/pages/my_collect/my_collect_view_model.dart';
 
 import '../../bean/home_article_list_bean.dart';
 import '../../common_ui/cache_network_image/cache_network_image.dart';

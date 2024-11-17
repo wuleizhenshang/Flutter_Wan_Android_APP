@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:wan_android_flutter_test/pages/system/show_list/system_study_detail_show_list_page.dart';
-import 'package:wan_android_flutter_test/theme/color.dart';
+import '/pages/system/show_list/system_study_detail_show_list_page.dart';
+import '/theme/color.dart';
 
 import '../../../common_ui/keep_alive/keep_alive_wrapper.dart';
 import '../home/system_study_view_model.dart';

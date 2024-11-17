@@ -1,15 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:wan_android_flutter_test/common_ui/bottom_navigation/common_index_stack_with_bottom_navigation.dart';
-import 'package:wan_android_flutter_test/common_ui/bottom_navigation/common_page_view_with_bottom_navigation.dart';
-import 'package:wan_android_flutter_test/main.dart';
+import '/common_ui/bottom_navigation/common_index_stack_with_bottom_navigation.dart';
+import '/common_ui/bottom_navigation/common_page_view_with_bottom_navigation.dart';
+import '/main.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:wan_android_flutter_test/pages/home/home_page.dart';
-import 'package:wan_android_flutter_test/pages/hot_point/hot_point_page.dart';
-import 'package:wan_android_flutter_test/pages/system/home/system_study_page.dart';
-import 'package:wan_android_flutter_test/pages/user/user_message_page.dart';
-import 'package:wan_android_flutter_test/theme/color.dart';
+import '/pages/home/home_page.dart';
+import '/pages/hot_point/hot_point_page.dart';
+import '/pages/system/home/system_study_page.dart';
+import '/pages/user/user_message_page.dart';
+import '/theme/color.dart';
 
 class TabPage extends StatefulWidget {
   const TabPage({super.key});

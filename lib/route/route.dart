@@ -1,14 +1,14 @@
 //封装Route
 import 'package:flutter/material.dart';
-import 'package:wan_android_flutter_test/pages/home/home_page.dart';
-import 'package:wan_android_flutter_test/pages/my_collect/my_collect_page.dart';
-import 'package:wan_android_flutter_test/pages/register/register_page.dart';
-import 'package:wan_android_flutter_test/pages/system/detail/system_study_detail_page.dart';
-import 'package:wan_android_flutter_test/pages/main_tab/tab_page.dart';
-import 'package:wan_android_flutter_test/pages/webview/web_view_page.dart';
 
+import '../pages/about_app/about_app_page.dart';
 import '../pages/login/login_page.dart';
+import '../pages/main_tab/tab_page.dart';
+import '../pages/my_collect/my_collect_page.dart';
+import '../pages/register/register_page.dart';
 import '../pages/search/search_page.dart';
+import '../pages/system/detail/system_study_detail_page.dart';
+import '../pages/webview/web_view_page.dart';
 
 //路由地址
 class RoutePath {
@@ -34,6 +34,9 @@ class RoutePath {
 
   //搜索页面
   static const String searchPage = "/search_page";
+
+  //关于App页面
+  static const String aboutAppPage = "/about_app_page";
 }
 
 //路由管理类
@@ -57,6 +60,8 @@ class Routes {
         return pageRoute(const SystemStudyDetailPage(), settings: settings);
       case RoutePath.searchPage:
         return pageRoute(const SearchPage(), settings: settings);
+      case RoutePath.aboutAppPage:
+        return pageRoute(const AboutAppPage(), settings: settings);
       default:
       //使用 =>（也叫 "fat arrow"） 是 Dart 中的简写语法，适用于只有一行表达式的函数。
       //return MaterialPageRoute(builder: (context) => const HomePage());

@@ -2,12 +2,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:wan_android_flutter_test/common_ui/dialog/loading_dialog.dart';
-import 'package:wan_android_flutter_test/common_ui/input_field/input_field_with_icon_cancel_ui.dart';
-import 'package:wan_android_flutter_test/pages/login/login_view_model.dart';
-import 'package:wan_android_flutter_test/route/route_utils.dart';
-import 'package:wan_android_flutter_test/route/route.dart';
-import 'package:wan_android_flutter_test/theme/color.dart';
+import '/common_ui/dialog/loading_dialog.dart';
+import '/common_ui/input_field/input_field_with_icon_cancel_ui.dart';
+import '/pages/login/login_view_model.dart';
+import '/route/route_utils.dart';
+import '/route/route.dart';
+import '/theme/color.dart';
 import 'package:provider/provider.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 

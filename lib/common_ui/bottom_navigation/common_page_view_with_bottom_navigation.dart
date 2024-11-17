@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:wan_android_flutter_test/common_ui/keep_alive/keep_alive_wrapper.dart';
+
+import '../keep_alive/keep_alive_wrapper.dart';
 
 ///封装Navigation+PageView，可以左右滑动切换页面，
 ///但是需要子Widget实现AutomaticKeepAliveClientMixin

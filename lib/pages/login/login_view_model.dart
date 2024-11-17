@@ -1,8 +1,9 @@
 import 'package:flutter/cupertino.dart';
-import 'package:wan_android_flutter_test/bean/login_bean.dart';
-import 'package:wan_android_flutter_test/memory/sp/sp_key_constant.dart';
-import 'package:wan_android_flutter_test/memory/sp/sp_utils.dart';
-import 'package:wan_android_flutter_test/network/api.dart';
+import '../../bean/login_bean.dart';
+import '/memory/sp/sp_key_constant.dart';
+import '/memory/sp/sp_utils.dart';
+import '/network/api.dart';
+
 
 class LoginViewModel extends ChangeNotifier {
   String userName = "";
