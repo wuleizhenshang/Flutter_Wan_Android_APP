@@ -25,6 +25,9 @@ class CustomCacheNetworkImage extends StatefulWidget {
   //图片填充方式
   final BoxFit fit;
 
+  //加载错误显示组件
+  final Widget? errorWidget;
+
   const CustomCacheNetworkImage(
       {super.key,
       required this.imageUrl,
@@ -33,7 +36,8 @@ class CustomCacheNetworkImage extends StatefulWidget {
       this.radius = 0,
       this.strokeWidth = 0,
       this.strokeColor = Colors.white,
-      this.fit = BoxFit.cover});
+      this.fit = BoxFit.cover,
+      this.errorWidget});
 
   @override
   State<StatefulWidget> createState() {
@@ -69,7 +73,8 @@ class _CustomCacheNetworkImageState extends State<CustomCacheNetworkImage> {
                       child: CircularProgressIndicator(
                     color: blue87CEFA,
                   )),
-                  errorWidget: (context, url, error) => const Icon(Icons.error),
+                  errorWidget: (context, url, error) =>
+                      widget.errorWidget ?? const Icon(Icons.error),
                   // 图片加载完成时
                   imageBuilder: (context, imageProvider) => Container(
                     decoration: BoxDecoration(

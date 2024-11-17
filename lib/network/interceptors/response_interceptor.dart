@@ -1,9 +1,11 @@
 import 'package:dio/dio.dart';
 import 'package:wan_android_flutter_test/bean/wan_android_base_bean.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:wan_android_flutter_test/route/route_utils.dart';
 
 import '../../memory/sp/sp_key_constant.dart';
 import '../../memory/sp/sp_utils.dart';
+import '../../pages/main_tab/tab_page.dart';
 
 ///提前解析data，最外层套的部分没了，直接获取到data部分传递给下一层
 class ResponseInterceptor extends InterceptorsWrapper {
@@ -33,10 +35,14 @@ class ResponseInterceptor extends InterceptorsWrapper {
           SpUtils.remove(SpKey.nickname);
           SpUtils.remove(SpKey.userIconLink);
           SpUtils.remove(SpKey.cookie);
+          //重载界面
+          //退出登录弹出栈重新加载整个页面，以刷新列表的状态
+          RouteUtils.pushAndRemoveUntil(RouteUtils.context, const TabPage());
           //返回登录失效
           handler.reject(DioException(
-              requestOptions: response.requestOptions, message: data.errorMsg??"还未登录，请先登录"));
-          Fluttertoast.showToast(msg: data.errorMsg?? "还未登录，请先登录");
+              requestOptions: response.requestOptions,
+              message: data.errorMsg ?? "还未登录，请先登录"));
+          Fluttertoast.showToast(msg: data.errorMsg ?? "还未登录，请先登录");
         } else if (data.errorCode == -1) {
           //登录注册等请求失败
           Fluttertoast.showToast(msg: data.errorMsg ?? "请求异常，请稍后再试");

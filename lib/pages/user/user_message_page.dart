@@ -91,7 +91,10 @@ class _UserPageState extends State<UserPage> {
                             imageUrl: vm.userMessage.userIconLink,
                             width: 150,
                             height: 150,
-                            radius: 75),
+                            radius: 75,
+                            errorWidget: Image.asset(
+                                "assets/images/ic_head_picture_default.png",
+                                fit: BoxFit.cover)),
                         SizedBox(width: 20.w),
                         //昵称、积分数量、等级
                         Column(
@@ -127,9 +130,16 @@ class _UserPageState extends State<UserPage> {
       children: [
         _singleOptionUi("我的收藏", () {
           //未登录就跳转登录界面，登录成功跳转收藏页面
-          viewModel.isLogin().then((value) {
+          viewModel.isLogin().then((value) async {
             if (!value) {
-              RouteUtils.pushForNamed(RouteUtils.context, RoutePath.loginPage);
+              bool isLoginSuccess = await RouteUtils.pushForNamed(
+                  RouteUtils.context, RoutePath.loginPage);
+              if (isLoginSuccess) {
+                // 登录成功，刷新用户信息
+                viewModel.getUserMessage();
+                RouteUtils.pushAndRemoveUntil(
+                    RouteUtils.context, const TabPage());
+              }
             } else {
               RouteUtils.pushForNamed(
                   RouteUtils.context, RoutePath.myCollectPage);
