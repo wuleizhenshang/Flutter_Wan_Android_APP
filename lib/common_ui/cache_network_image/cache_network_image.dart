@@ -65,9 +65,10 @@ class _CustomCacheNetworkImageState extends State<CustomCacheNetworkImage> {
                   //进度条
                   // progressIndicatorBuilder: (context, url, downloadProgress) =>
                   //     CircularProgressIndicator(value: downloadProgress.progress),
-                  placeholder: (context, url) => CircularProgressIndicator(
+                  placeholder: (context, url) => Center(
+                      child: CircularProgressIndicator(
                     color: blue87CEFA,
-                  ),
+                  )),
                   errorWidget: (context, url, error) => const Icon(Icons.error),
                   // 图片加载完成时
                   imageBuilder: (context, imageProvider) => Container(

@@ -178,10 +178,16 @@ class _HomePageState extends State<HomePage> {
                 //margin:外边距 only可以设置上下左右的外边距，all指定所有的外边距
                 //涉及上下左右用.r 高.h 宽.w
                 // container是一个容器，可以设置很多属性，这里还没图片，这里先用container代替
-                return ClipRRect(
-                    borderRadius: BorderRadius.circular(20.r),
-                    child: Image.network(vm.bannerList[index].imagePath ?? '',
-                        fit: BoxFit.fill));
+                // return ClipRRect(
+                //     borderRadius: BorderRadius.circular(20.r),
+                //     child: Image.network(vm.bannerList[index].imagePath ?? '',
+                //         fit: BoxFit.fill));
+                return CustomCacheNetworkImage(
+                    width: double.infinity,
+                    height: 200.h,
+                    radius: 20,
+                    imageUrl: vm.bannerList[index].imagePath ?? '',
+                    fit: BoxFit.fill);
               },
               //底部指示器
               pagination: SwiperPagination(
