@@ -63,4 +63,53 @@ PS C:\project\android_project\wan_android_flutter_test> flutter config --jdk-dir
 Setting "jdk-dir" value to "C:\Users\jianting\.jdks\corretto-17.0.13".
 
 ## 使用的插件
+```yaml
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  # The "flutter_lints" package below contains a set of recommended lints to
+  # encourage good coding practices. The lint set provided by the package is
+  # activated in the `analysis_options.yaml` file located at the root of your
+  # package. See that file for information about deactivating specific lint
+  # rules and activating additional ones.
+  flutter_lints: ^4.0.0
+
+  # flutter_screenutil 屏幕适配
+  flutter_screenutil: ^5.0.0
+  # dio 网络请求
+  dio: ^5.7.0
+  # permission_handler 权限申请
+  permission_handler: ^11.3.1
+  # provider 状态管理，还有riverpod, getx,bloc等等(provider适用简单，riverpod中大型，bloc大型，getx适合快速构建)
+  # provider像MVVM,bloc像MVI
+  provider: ^6.1.2
+  # shared_preferences 本地存储
+  shared_preferences: ^2.3.3
+  # styled_widget 代码简洁，干掉地狱回调
+  styled_widget: ^0.4.1
+  # url_launcher 打开外部链接
+  # url_launcher: ^6.3.1
+  # fluttertoast toast
+  fluttertoast: ^8.2.8
+  # webview_flutter: webview，这个支持的平台为android、iOS、mac，选构建项目的时候也构建了web，这里不用这个三方库了
+  webview_flutter: ^4.5.0
+  # webview_flutter_plus: ^0.4.7
+  # flutter_swiper_view: 轮播图
+  #
+  flutter_swiper_view: ^1.1.8
+  # cached_network_image: 带缓存的网络图片加载组件
+  cached_network_image: ^3.4.1
+  # flutter_easyrefresh: 下拉刷新上拉加载
+  flutter_easyrefresh: ^2.2.2
+  # uuid: 生成唯一标识
+  uuid: ^4.4.2
+  # getx： 状态管理
+  get: ^4.6.6
+  # package_info_plus: 获取app信息
+  package_info_plus: ^8.1.1
+  device_info_plus: ^11.1.1
+  # flutter_html: 富文本解析
+  flutter_html_all: ^3.0.0-beta.2
+```
 
