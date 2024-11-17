@@ -177,6 +177,8 @@ class _SearchPageState extends State<SearchPage> {
             GestureDetector(
                 onTap: () {
                   viewModel.searchByKeyword();
+                  //取消焦点
+                  _focusNode.unfocus();
                 },
                 child: Text("搜索",
                     style: TextStyle(color: blue87CEFA, fontSize: 32.sp))),
