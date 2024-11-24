@@ -19,4 +19,7 @@ class SpKey {
 
   //用户等级
   static const String userLevel = "userLevel";
+
+  //下次应该加载热门壁纸的时间
+  static const String nextLoadHotWallpaperTime = "nextLoadHotWallpaperTime";
 }

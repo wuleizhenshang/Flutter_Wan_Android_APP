@@ -6,24 +6,27 @@ import 'package:wan_android/network/interceptors/print_log_interceptor.dart';
 class PgyDio {
   static PgyDio? _instance;
 
-  PgyDio._();
+  PgyDio._() {
+    // Dio 实例初始化，并配置拦截器和基本配置
+    _dio = Dio(BaseOptions(
+      baseUrl: pgyBaseUrl,
+      connectTimeout: const Duration(seconds: 30),
+      receiveTimeout: const Duration(seconds: 30),
+      sendTimeout: const Duration(seconds: 30),
+    ));
+
+    // 添加拦截器
+    _dio.interceptors.add(PrintLogInterceptor());
+  }
 
   static PgyDio getInstance() {
     return _instance ??= PgyDio._();
   }
 
-  final Dio _dio = Dio();
+  late Dio _dio;
 
   ///检查更新
   Future<PgyUpdateBean?> checkUpdate() async {
-    _dio.options = BaseOptions(
-      baseUrl: pgyBaseUrl,
-      connectTimeout: const Duration(seconds: 30),
-      receiveTimeout: const Duration(seconds: 30),
-      sendTimeout: const Duration(seconds: 30),
-    );
-    _dio.interceptors.add(PrintLogInterceptor());
-
     Response response = await _dio.post(
       "apiv2/app/check",
       queryParameters: {

@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import '/network/api.dart';
+import 'package:wan_android/network/request/wan_android/api.dart';
 
 class RegisterViewModel extends ChangeNotifier {
   String username = "";

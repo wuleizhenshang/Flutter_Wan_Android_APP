@@ -1,11 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
-import '/network/Api.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-
-import '../../bean/search_list_bean.dart';
-import '../../memory/sp/sp_key_constant.dart';
-import '../../memory/sp/sp_utils.dart';
+import 'package:wan_android/bean/search_list_bean.dart';
+import 'package:wan_android/memory/sp/sp_key_constant.dart';
+import 'package:wan_android/memory/sp/sp_utils.dart';
+import 'package:wan_android/network/request/wan_android/api.dart';
 
 /// 搜索页面的viewModel，使用GetX
 class SearchViewModel extends GetxController {

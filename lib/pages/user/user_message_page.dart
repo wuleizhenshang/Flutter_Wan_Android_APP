@@ -5,7 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:wan_android/common_ui/dialog/dialog_factory.dart';
 import 'package:wan_android/common_ui/dialog/loading_dialog.dart';
 import 'package:wan_android/common_ui/dialog/should_update_app_dialog.dart';
-import 'package:wan_android/network/pgy/pgy.dart';
+import 'package:wan_android/network/request/pgy/pgy.dart';
 import '../webview/web_view_page.dart';
 import '/common_ui/bottom_navigation/common_index_stack_with_bottom_navigation.dart';
 import '/common_ui/cache_network_image/cache_network_image.dart';
@@ -151,6 +151,10 @@ class _UserPageState extends State<UserPage> {
             }
           });
         }),
+        Container(width: double.infinity, height: 1, color: grayFFCDCDCD),
+        _singleOptionUi("热门壁纸（Drift数据库框架实现）", () {
+          RouteUtils.pushForNamed(context, RoutePath.hotWallpaperPage);
+        }),
         SizedBox(height: 30.h),
         _singleOptionUi("关于App", () {
           RouteUtils.pushForNamed(context, RoutePath.aboutAppPage);
@@ -168,7 +172,6 @@ class _UserPageState extends State<UserPage> {
           //检查更新
           LoadingDialog.show(context);
           PgyDio.getInstance().checkUpdate().then((value) {
-
             viewModel.checkUpdate().then((value) {
               LoadingDialog.dismiss(context);
 

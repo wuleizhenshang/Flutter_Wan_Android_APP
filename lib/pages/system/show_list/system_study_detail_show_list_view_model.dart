@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
+import 'package:wan_android/network/request/wan_android/api.dart';
 import '/bean/system_detail_list_bean.dart';
-import '/network/Api.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 import '../../../memory/sp/sp_key_constant.dart';

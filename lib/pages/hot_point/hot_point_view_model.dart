@@ -1,10 +1,10 @@
 import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
+import 'package:wan_android/bean/hot_search_word.dart';
+import 'package:wan_android/bean/usually_use_website.dart';
+import 'package:wan_android/network/request/wan_android/api.dart';
 
-import '../../bean/hot_search_word.dart';
-import '../../bean/usually_use_website.dart';
-import '../../network/Api.dart';
 
 class HotPointViewModel extends ChangeNotifier {
   //常用网站列表

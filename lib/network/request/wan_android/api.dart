@@ -1,4 +1,6 @@
 import 'package:flutter/cupertino.dart';
+import 'package:wan_android/bean/HomeBannerBean.dart';
+import 'package:wan_android/bean/search_list_bean.dart';
 import '/bean/home_article_list_bean.dart';
 import '/bean/hot_search_word.dart';
 import '/bean/login_bean.dart';
@@ -8,8 +10,6 @@ import '/bean/system_list_bean.dart';
 import '/bean/user_message_bean.dart';
 import '/bean/usually_use_website.dart';
 
-import '../bean/HomeBannerBean.dart';
-import '../bean/search_list_bean.dart';
 import 'dio_instance.dart';
 import 'package:dio/dio.dart';
 import 'package:fluttertoast/fluttertoast.dart';

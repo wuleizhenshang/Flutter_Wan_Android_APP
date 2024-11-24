@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:wan_android/memory/drift/db/setup.dart';
+import 'package:wan_android/network/constant.dart';
+import 'package:wan_android/network/request/wan_android/dio_instance.dart';
 import '/pages/home/home_page.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '/route/route_utils.dart';
 import '/route/route.dart';
 import '/theme/color.dart';
 
-import 'network/dio_instance.dart';
-
-void main() {
+Future<void> main() async{
   ///初始化Dio
-  DioInstance.getInstance().initDio(baseUrl: "https://www.wanandroid.com/");
+  DioInstance.getInstance().initDio(baseUrl: wanAndroidBaseUrl);
+  ///覆盖数据库打开方法
+  setupDatabases();
 
   runApp(const MyApp());
 }

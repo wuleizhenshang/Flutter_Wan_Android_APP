@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
+import 'package:wan_android/network/request/wan_android/api.dart';
 import '/bean/system_list_bean.dart';
-import '/network/Api.dart';
 
 class SystemViewModel extends ChangeNotifier {
   KnowledgeListModel? knowledgeListModel;

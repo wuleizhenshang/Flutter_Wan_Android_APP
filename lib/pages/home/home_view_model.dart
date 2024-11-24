@@ -3,13 +3,13 @@ import 'dart:ffi';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 
-import '../../bean/HomeBannerBean.dart';
-import '../../bean/home_article_list_bean.dart';
-import '../../memory/sp/sp_key_constant.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:wan_android/bean/HomeBannerBean.dart';
+import 'package:wan_android/bean/home_article_list_bean.dart';
+import 'package:wan_android/memory/sp/sp_key_constant.dart';
+import 'package:wan_android/memory/sp/sp_utils.dart';
+import 'package:wan_android/network/request/wan_android/api.dart';
 
-import '../../memory/sp/sp_utils.dart';
-import '../../network/Api.dart';
 
 //首页的ViewModel
 //provider简单使用

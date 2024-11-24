@@ -16,7 +16,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
 # In Windows, build-name is used as the major, minor, and patch parts
 # of the product and file versions while build-number is used as the build suffix.
-version: 1.0.1+5
+version: 1.0.2+6
 
 environment:
   sdk: ^3.5.4
@@ -31,21 +31,10 @@ dependencies:
   flutter:
     sdk: flutter
 
-
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.8
 
-dev_dependencies:
-  flutter_test:
-    sdk: flutter
-
-  # The "flutter_lints" package below contains a set of recommended lints to
-  # encourage good coding practices. The lint set provided by the package is
-  # activated in the `analysis_options.yaml` file located at the root of your
-  # package. See that file for information about deactivating specific lint
-  # rules and activating additional ones.
-  flutter_lints: ^4.0.0
 
   # flutter_screenutil 屏幕适配
   flutter_screenutil: ^5.0.0
@@ -68,7 +57,6 @@ dev_dependencies:
   webview_flutter: ^4.5.0
   # webview_flutter_plus: ^0.4.7
   # flutter_swiper_view: 轮播图
-  #
   flutter_swiper_view: ^1.1.8
   # cached_network_image: 带缓存的网络图片加载组件
   cached_network_image: ^3.4.1
@@ -76,6 +64,8 @@ dev_dependencies:
   flutter_easyrefresh: ^2.2.2
   # uuid: 生成唯一标识
   uuid: ^4.4.2
+  # Logger: 日志打印
+  logger: ^2.5.0
   # getx： 状态管理
   get: ^4.6.6
   # package_info_plus: 获取app信息
@@ -85,8 +75,31 @@ dev_dependencies:
   flutter_html_all: ^3.0.0-beta.2
   # url_launcher: 打开外部链接
   url_launcher: ^6.3.1
+  # drift 这是定义大多数 api 的核心包。给予sqrlite，数据库存储
+  drift: ^2.21.0
+  # sqlite3_flutter_libs 提供 sqlite 动态库，如果要加密数据库，请使用sqlcipher_flutter_libs，不能同时使用
+  # sqlite3_flutter_libs: ^0.5.26
+  sqlcipher_flutter_libs: ^0.6.4
+  # path_provider和path用于寻找合适的位置来存放数据库。 由 Flutter 和 Dart 团队维护
+  path_provider: ^2.1.5
+  path: ^1.9.0
 
 
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  # The "flutter_lints" package below contains a set of recommended lints to
+  # encourage good coding practices. The lint set provided by the package is
+  # activated in the `analysis_options.yaml` file located at the root of your
+  # package. See that file for information about deactivating specific lint
+  # rules and activating additional ones.
+  flutter_lints: ^4.0.0
+
+  # drift自动生成代码工具、 不会包含在最终应用程序中。
+  drift_dev: ^2.21.0
+  # 代码生成的通用工具，由 Dart 团队维护。
+  build_runner: ^2.4.13
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

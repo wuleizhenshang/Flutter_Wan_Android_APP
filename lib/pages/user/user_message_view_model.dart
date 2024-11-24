@@ -1,11 +1,10 @@
 import 'package:flutter/cupertino.dart';
-import 'package:wan_android/network/pgy/pgy.dart';
-import '../../bean/pgy_update_bean.dart';
+import 'package:wan_android/bean/pgy_update_bean.dart';
+import 'package:wan_android/network/request/pgy/pgy.dart';
+import 'package:wan_android/network/request/wan_android/api.dart';
 import '/bean/user_message_bean.dart';
 import '/memory/sp/sp_key_constant.dart';
 import '/memory/sp/sp_utils.dart';
-import '/network/Api.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 

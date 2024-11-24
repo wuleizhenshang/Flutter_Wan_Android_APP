@@ -1,6 +1,7 @@
 ///请求base url
 const String wanAndroidBaseUrl = "https://www.wanandroid.com/";
 const String pgyBaseUrl = "https://www.pgyer.com/";
+const String hotWallpaperBaseUrl = "http://service.picasso.adesk.com/";
 
 ///蒲公英分发平台相关
 const String pgyAppKey = "5be6d9a874ecf126c5d3aeaa7e7c9c82";
